@@ -1,0 +1,32 @@
+#+TITLE: Orgmode Syntax for Vim
+
+* Todo list
+
+** Orgmode syntax features
+
+- Specify what can contain
+    - Markup
+    - Links
+    - Macro Replacements
+    - (Radio) Targets
+    - Timestamps
+
+- Improve "Markup" boundaries
+
+- Add support for "Targets"
+- Add support for "Radio Targets"
+- Add support for "Timestamps"
+- Add support for "Clocking"
+
+- Add support for SyntaxRegion plugin
+
+** Other
+
+- Improve customizability
+- Group all highlight statements at end of script
+
+** Functionality
+
+- Table autoformatting
+- Dynamic block processing (mainly ~columnview~)
+- Compilation to HTML

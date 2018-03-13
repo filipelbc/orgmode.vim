@@ -1,0 +1,176 @@
+#+TODO: TODO | DONE
+#+TODO: REPORT BUG KNOWNCAUSE | FIXED
+#+TODO: WIP | CANCELED
+
+  #+MACRO: foo bar $1 wololo MACRO: asd
+
+#+PRIORITIES: A C B
+
+#+foo: bar
+
+asd /asd/ dfsdf *asdasd /asdasd/ asdasd* asd /asd *dfsdf* asdasd/ asdasd *asdasd* asd asd
+dfsdf asdasd asdasd asdasd asd asd dfsdf asdasd asdasd asdasd asd asd dfsdf
+asdasd +asdasd+ asdasd _asd_ asd _dfsdf *asdasd* asdasd_ asdasd *as /d _asd_ d/ fsdf* asdasd
+asdasd asdasd asd asd dfsdf asdasd asdasd asdasd asd asd dfsdf asdasd asdasd
+asdasd asd asd +dfsdf _asdasd_ asdasd+ asdasd asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd asd asd *dfsdf ~asdasd~ asdasd* asdasd asd asd
+dfsdf asdasd asdasd /asdasd =asd= asd/ dfsdf /asdasd ~asdasd~ asdasd/ asd asd dfsdf
+asdasd asdasd asdasd asd asd =dfsdf *asdasd* asdasd= asdasd asd asd dfsdf asdasd
+asdasd [[asdasd asd]] asd dfsdf [[asdasd][ asdasd]] asdasd asd asd dfsdf asdasd asdasd
+asdasd
+
+adasd  asd  =adasd=  asdasd asasd =asdad= asd,
+
+Lorem [[ipsum dolor]] sit amet, [[consectetur][adipiscing]] elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud [[exercitation][ullamco]] laboris [[nisi]] ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. ~Excepteur sint~ occaecat ~cupidatat non~ proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+* Wololo Bar
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+** Wololo Bar
+:PROPERTIES:
+:foo: bar
+:END:
+
+asd asd dfsdf asdasd asdasd asdasd
+#+BEGIN_FOO asdas  asd
+  asd
+#+END_FOO
+asd asd dfsdf asdasd asdasd asdasd
+
+#+BEGIN: columnview
+   | Name  | Phone | Age |
+   |-------+-------+-----|
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
+   |-------+-------+-----|
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
+#+END:
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+#+BEGIN_SRC foo
+asda  asdas
+asdd adasd
+#+END_SRC
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+*** Wololo Bar
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+**** Wololo Bar
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+***** Wololo Bar
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+****** Wololo Bar
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+* TODO [#A] foo bar foo :bar:
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+** COMMENT DONE [#B] foo bar foo :bar:
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+*** WIP [#C] foo bar foo :bar:
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+**** COMMENT CANCELED [#D] foo bar foo :bar:foo:
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+***** BUG [#A] foo bar foo :bar:
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+* Show
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+# foo
+
+[#foo]
+
+asd asd dfsdf {{{asdasd}}} asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+- [x] adasd
+
+  * asdasd
+  + adasda
+
+  + [x] asdasdas
+
+  + asdasd :: asda asdsad
+
+  * [x] asdd :: asdasd
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+  1. asd
+    1. asd
+# asd
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdas
+
+asd
+
+   | Name  | Phone | Age |
+   |-------+-------+-----|
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
+   |-------+-------+-----|
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
+   | Anna  |  4321 |  25 |
+   |-------+-------+-----|
+   | Peter |  1234 |  17 |
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+   |-------+-------+-----|
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
+
+asd asd dfsdf asdasd asdasd asdasd
+asd asd dfsdf asdasd asdasd asdasd
+
+   | Peter |  1234 |  17 |
+   | Anna  |  4321 |  25 |
