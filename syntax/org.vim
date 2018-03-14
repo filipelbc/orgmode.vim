@@ -1,7 +1,6 @@
 " Vim syntax file
 "
 " Author:      Filipe L B Correia <filipelbc@gmail.com>
-" Last Change: 2018 mar 11 16:43:50
 "
 " Language:    Orgmode
 
@@ -43,6 +42,36 @@ let b:org_section_styles = [
 let b:org_title_style = ['#002b36', 'NONE', 'bold']
 
 let b:org_link_style = ['#268bd2', 'NONE', 'underline']
+
+" Markup
+let s:markups = [
+            \   ['\*', 'Bold'],
+            \   ['\/', 'Italic'],
+            \   ['_', 'Underline'],
+            \   ['+', 'Strikethrough'],
+            \ ]
+
+let s:code_markups = ['\~', '=']
+
+function! MarkupEnd(c)
+    return '"\(\s\+\|[,\"'']\)\@<!\zs' . a:c . '\ze\($\|\s\|[)}\"''-.,:!?]\)"'
+endfunction
+
+function! MarkupStart(c)
+    return '"\(^\|\s\|[({\"'']\)\zs' . a:c . '\ze\(\s\+\|[,\"'']\)\@!"'
+endfunction
+
+for m in s:markups
+    execute 'syntax region org' . m[1] . ' matchgroup=org' . m[1] . 'Group start=' . MarkupStart(m[0]) . ' end=' . MarkupEnd(m[0]) . ' oneline concealends contains=orgCode'
+    execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
+    execute 'hi link org' . m[1] . ' org' . m[1] . ''
+endfor
+
+for m in s:code_markups
+    execute 'syntax region orgCode matchgroup=orgCodeGroup start=' . MarkupStart(m) . ' end=' . MarkupEnd(m) . ' oneline concealends'
+endfor
+
+" Headings
 
 function! FindAndCall(regex, func_name)
     execute 'silent keeppatterns %s/' . a:regex . '/\=' . a:func_name. '(submatch(0))/gne'
@@ -156,23 +185,6 @@ syntax cluster orgTable contains=orgTableRow,orgTableLine,orgTableHeader
 hi link orgTableColDel Type
 hi link orgTableLine Type
 hi link orgTableHeader orgBold
-
-" Markup
-let markups = [
-            \   ['\*', 'Bold'],
-            \   ['\/', 'Italic'],
-            \   ['_', 'Underline'],
-            \   ['+', 'Strikethrough'],
-            \ ]
-
-for m in markups
-    execute 'syntax region org' . m[1] . ' matchgroup=org' . m[1] . 'Group start="\( \|$\)\zs' . m[0] . '" end="' . m[0] . '\ze\( \|$\)" oneline concealends contains=orgCode'
-    execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
-    execute 'hi link org' . m[1] . ' org' . m[1] . ''
-endfor
-
-syntax region orgCode matchgroup=orgCodeGroup start="\( \|$\)\zs="  end="=\ze\( \|$\)" oneline concealends
-syntax region orgCode matchgroup=orgCodeGroup start="\( \|$\)\zs\~" end="\~\ze\( \|$\)" oneline concealends
 
 " Links
 syntax match orgLinkBorder contained "\[\[\|\]\[\|\]\]" conceal

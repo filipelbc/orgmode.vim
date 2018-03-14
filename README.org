@@ -11,8 +11,6 @@
     - (Radio) Targets
     - Timestamps
 
-- Improve "Markup" boundaries
-
 - Add support for "Targets"
 - Add support for "Radio Targets"
 - Add support for "Timestamps"
