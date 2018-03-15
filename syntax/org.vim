@@ -58,11 +58,11 @@ function! MarkupEnd(c)
 endfunction
 
 function! MarkupStart(c)
-    return '"\(^\|\s\|[({\"'']\)\zs' . a:c . '\ze\(\s\+\|[,\"'']\)\@!"'
+    return '"\(^\|\s\|[({\"'']\)\zs' . a:c . '\ze\(\s\+\|[,\"'']\|' . a:c . '\)\@!"'
 endfunction
 
 for m in s:markups
-    execute 'syntax region org' . m[1] . ' matchgroup=org' . m[1] . 'Group start=' . MarkupStart(m[0]) . ' end=' . MarkupEnd(m[0]) . ' oneline concealends contains=orgCode'
+    execute 'syntax region org' . m[1] . ' matchgroup=org' . m[1] . 'Group start=' . MarkupStart(m[0]) . ' end=' . MarkupEnd(m[0]) . ' oneline concealends contains=orgCode,orgMacroReplacement,orgLink'
     execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
     execute 'hi link org' . m[1] . ' org' . m[1] . ''
 endfor
@@ -71,8 +71,9 @@ for m in s:code_markups
     execute 'syntax region orgCode matchgroup=orgCodeGroup start=' . MarkupStart(m) . ' end=' . MarkupEnd(m) . ' oneline concealends'
 endfor
 
-" Headings
+execute 'syntax cluster orgMarkupContained contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
 
+" Headings
 function! FindAndCall(regex, func_name)
     execute 'silent keeppatterns %s/' . a:regex . '/\=' . a:func_name. '(submatch(0))/gne'
 endfunction
@@ -175,16 +176,22 @@ hi link orgMacroName Special
 hi link orgMacroDefinition Statement
 
 " Tables
-syntax match orgTableColDel "|" contained
-syntax match orgTableRow "^\s*|\($\|[^-].*\)" contains=orgTableHeader,orgTableColDel transparent
-syntax match orgTableLine "^\s*|-\+\(+-\+\)*\(|\)\=\s*$"
-syntax match orgTableHeader "\(^\s*[^|]*\n\s*\)\@<=|[^-].*\n\ze\s*|-" contains=orgTableColDel
+syntax cluster orgCellContains contains=orgTableColDel,orgMacroReplacement,orgCode,orgLink,@orgMarkupContained
 
-syntax cluster orgTable contains=orgTableRow,orgTableLine,orgTableHeader
+syntax match orgTableColDel "|" contained
+
+syntax match orgTableCell "|[^|]*" contained contains=@orgCellContains transparent
+syntax match orgTableHeaderCell "|[^|]*" contained contains=@orgCellContains
+
+syntax match orgTableRow "^\s*|.*" contains=orgTableHeader,orgTableCell transparent
+syntax match orgTableLine "^\s*|-\+\(+-\+\)*\(|\)\=\s*$"
+syntax match orgTableHeader "\(^\s*[^|]*\n\s*\)\@<=|[^-].*\n\ze\s*|-" contains=orgTableHeaderCell transparent
+
+syntax cluster orgTableContained contains=orgTableRow,orgTableLine,orgTableHeader
 
 hi link orgTableColDel Type
 hi link orgTableLine Type
-hi link orgTableHeader orgBold
+hi link orgTableHeaderCell orgBold
 
 " Links
 syntax match orgLinkBorder contained "\[\[\|\]\[\|\]\]" conceal
@@ -204,7 +211,7 @@ syntax match orgPropertyName contained "^\s*\zs:\w\+:" nextgroup=orgPropertyValu
 syntax match orgProperty contained "^\s*:\w\+:.*$" transparent contains=orgPropertyName
 
 " Blocks
-syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend contains=@orgTable
+syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend contains=@orgTableContained
 syntax region orgBlockGeneric matchgroup=orgBlockGroup start="^\s*#+BEGIN_\z\([^ ]\+\)\( .*\)\=$" end="^\s*#+END_\z1\s*$" keepend
 syntax region orgBlockComment matchgroup=orgComment start="^\s*#+BEGIN_COMMENT\( .*\)\=$" end="^\s*#+END_COMMENT\s*$" keepend
 syntax region orgBlockSrc matchgroup=orgBlockGroup start="^\s*#+BEGIN_SRC\( .*\)\=$" end="^\s*#+END_SRC\s*$" keepend
