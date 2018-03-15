@@ -176,7 +176,7 @@ hi link orgMacroDefinition Statement
 
 " Tables
 syntax match orgTableColDel "|" contained
-syntax match orgTableRow "^\s*|[^-].*" contains=orgTableHeader,orgTableColDel transparent
+syntax match orgTableRow "^\s*|\($\|[^-].*\)" contains=orgTableHeader,orgTableColDel transparent
 syntax match orgTableLine "^\s*|-\+\(+-\+\)*\(|\)\=\s*$"
 syntax match orgTableHeader "\(^\s*[^|]*\n\s*\)\@<=|[^-].*\n\ze\s*|-" contains=orgTableColDel
 
