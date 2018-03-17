@@ -128,12 +128,12 @@ endfor
 execute 'syntax cluster orgTodoKeys contains=' . join(map(keys(b:org_todo_keys), "'orgTodoKey_' . v:val"), ',')
 execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys, "'orgPriorityKey_' . v:val"), ',')
 
-syntax match orgPriority contained "\[#\a\+\]" contains=@orgPriorityKeys
+syntax match orgPriority contained "\[#\a\+\] " contains=@orgPriorityKeys
 
 execute 'syntax match orgSectionMeta contained "^\*\+ \+\zs\(COMMENT \+\)\=\(\(' . join(keys(b:org_todo_keys), '\|') . '\) \+\)\=\(\[#\a\+\] \+\)\=" contains=@orgTodoKeys,orgPriority'
 
-syntax match orgSectionTag contained "\w\+"
-syntax match orgSectionTags contained ":\(\w*:\)\+$" contains=orgSectionTag
+syntax match orgSectionTag contained "[a-zA-Z0-9]\+"
+syntax match orgSectionTags contained "\s\+:\([a-zA-Z0-9]*:\)\+$" contains=orgSectionTag
 
 for i in range(b:org_max_sections)
     execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionMeta,orgSectionTags nextgroup=orgProperties skipnl'
@@ -154,11 +154,11 @@ syntax match orgDescriptionListName contained "[-+*] \zs.*\ze ::"
 syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\ze " contains=orgDescriptionListName
 
 " Comment
-syntax match orgComment "^\s*#.*"
+syntax match orgComment "^\s*#\s.*"
 
 " Config
 syntax match orgConfigValue contained ".*$" contains=orgMacroReplacement
-syntax match orgConfig "^\s*#+\w\+:" nextgroup=orgConfigValue skipwhite
+syntax match orgConfig "^\s*#+\k\+:" nextgroup=orgConfigValue skipwhite
 
 syntax match orgTitleValue contained ".*$" contains=orgMacroReplacement
 syntax match orgTitle "^\s*#+TITLE:" nextgroup=orgTitleValue skipwhite
@@ -166,8 +166,8 @@ syntax match orgTitle "^\s*#+TITLE:" nextgroup=orgTitleValue skipwhite
 " Macros
 syntax match orgMacroArgNum contained "\$\d"
 syntax match orgMacroValue contained ".*" contains=orgMacroArgNum
-syntax match orgMacroName contained "^\s*#+MACRO:\s\+\zs\w\+\ze\s\+" nextgroup=orgMacroValue
-syntax match orgMacroDefinition "^\s*#+MACRO:\s\+\w\+\s\+.*" contains=orgMacroName
+syntax match orgMacroName contained "^\s*#+MACRO:\s\+\zs\k\+\ze\s\+" nextgroup=orgMacroValue
+syntax match orgMacroDefinition "^\s*#+MACRO:\s\+\k\+\s\+.*" contains=orgMacroName
 syntax match orgMacroReplacement "{\{3}.\{-}}\{3}"
 
 hi link orgMacroArgNum Type
@@ -207,8 +207,8 @@ hi link orgLinkURL Type
 " Properties
 syntax region orgProperties contained matchgroup=orgPropertiesGroup start="^\s*:PROPERTIES:\s*$" end="^\s*:END:\s*$" contains=orgProperty
 syntax match orgPropertyValue contained ".*"
-syntax match orgPropertyName contained "^\s*\zs:\w\+:" nextgroup=orgPropertyValue skipwhite
-syntax match orgProperty contained "^\s*:\w\+:.*$" transparent contains=orgPropertyName
+syntax match orgPropertyName contained "^\s*\zs:\k\+:" nextgroup=orgPropertyValue skipwhite
+syntax match orgProperty contained "^\s*:\k\+:.*$" transparent contains=orgPropertyName
 
 " Blocks
 syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend contains=@orgTableContained
