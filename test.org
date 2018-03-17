@@ -1,193 +1,323 @@
 #+TODO: TODO | DONE
-#+TODO: REPORT BUG KNOWNCAUSE | FIXED
+#+TODO: FIXME BUG KNOWNCAUSE | FIXED
 #+TODO: WIP | CANCELED
 
-  #+MACRO: foo bar $1 wololo MACRO: asd
+#+MACRO: foo wololo foo bar $1 age
+#+macro: bar bar wololo age foo
+#+Macro: abu ABU
+#+macro: wo-lo WOLOLO
 
-#+PRIORITIES: A C B
+#+PRIORITIES: A C D B
 
-#+foo: bar
+#+key: value
+#+foo-bar: value
+#+foo_bar: value
 
-asd /asd/ dfsdf *asdasd /asdasd/ asdasd* asd /asd *dfsdf* asdasd/ asdasd *asdasd* asd asd
-dfsdf asdasd asdasd asdasd asd asd dfsdf asdasd asdasd asdasd asd asd dfsdf
-asdasd +asdasd+ asdasd _asd_ asd _dfsdf *asdasd* asdasd_ asdasd *as /d _asd_ d/ fsdf* asdasd
-asdasd asdasd asd asd dfsdf asdasd asdasd asdasd asd asd dfsdf asdasd asdasd
-asdasd asd asd +dfsdf _asdasd_ asdasd+ asdasd asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd asd asd *dfsdf ~asdasd~ asdasd* asdasd asd asd
-dfsdf asdasd asdasd /asdasd =asd= asd/ dfsdf /asdasd ~asdasd~ asdasd/ asd asd dfsdf
-asdasd asdasd asdasd asd asd =dfsdf *asdasd* asdasd= asdasd asd asd dfsdf asdasd
-asdasd [[asdasd asd]] asd dfsdf [[asdasd][ asdasd]] asdasd asd asd dfsdf asdasd asdasd
-asdasd
+#+title: Example
 
-adasd  asd  =adasd=  asdasd asasd =asdad= asd,
+# This is a comment
+#This is NOT a comment
 
-Lorem [[ipsum dolor]] sit amet, [[consectetur][adipiscing]] elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud [[exercitation][ullamco]] laboris [[nisi]] ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. ~Excepteur sint~ occaecat ~cupidatat non~ proident, sunt in
-culpa qui officia deserunt mollit anim id est laborum.
+The quick brown fox jumps over {{{wo-lo}}} the lazy dog
 
-* Wololo Bar
+#+BEGIN: columnview
+| ITEM                                                | TODO | PRIORITY | TAGS        |
+|-----------------------------------------------------+------+----------+-------------|
+| * The quick brown fox jumps over the lazy dog       |      |          |             |
+| ** The quick brown fox jumps over the lazy dog      |      |          |             |
+| *** The quick brown fox jumps over the lazy dog     |      |          |             |
+| **** The quick brown fox jumps over the lazy dog    |      |          |             |
+| ***** The quick brown fox jumps over the lazy dog   |      |          |             |
+| ****** The quick brown fox jumps over the lazy dog  |      |          |             |
+| ******* The quick brown fox jumps over the lazy dog |      |          |             |
+| * Markup, links and tables                          |      |          |             |
+| ** Tables                                           |      |          |             |
+| * Properties, clocking                              |      |          |             |
+| ** This heading has some properties                 |      |          |             |
+| ** This heading has no properties                   |      |          |             |
+| ** Another heading with properties                  |      |          |             |
+| * Blocks                                            |      |          |             |
+| * Includes                                          |      |          |             |
+| * Itemizations, Enumerations, Description lists     |      |          |             |
+| ** Organize party [2/4]                             |      |          |             |
+| * lists and complex headings                        |      |          |             |
+| ** Very complex task 1                              | TODO | D        | :tagA:tagB: |
+| ** Very complex task 2                              | DONE |          | :tagA:      |
+| ** Very complex task 3                              |      | A        | :tagB:      |
+| ** DONE[#D] Very complex task 3  :not-a-tag:        |      | D        |             |
+| ** TODOVery complex task 4                          |      |          |             |
+| ** [#A]Very complex task 5:nota_tag:                |      | A        |             |
+| ** COMMENT[#B] Very complex task 7                  |      | B        |             |
+| ** COMMENTFIXME [#B] Very complex task 8            |      | B        |             |
+| ** Very complex task 9:not-a-tag:                   |      |          |             |
+| ** Very complex task 10                             |      |          | :tag1:      |
+#+END:
 
-~asd asd~ dfsdf asdasd asdasd asdasd
-asd asd dfsdf ~asdasd~ asdasd asdasd
-asd asd dfsdf asdasd asdasd ~asdasd~
-asd asd ~dfsdf ~asdasd,~ asdasd~ asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf ~'asdasd~ asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+The quick brown fox jumps over the lazy dog
 
-** Wololo Bar
+* The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+** The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+*** The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+**** The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+***** The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+****** The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+******* The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog
+
+* Markup, links and tables
+
+Lorem *ipsum dolor* sit amet, *consectetur ~adipiscing~ elit*. Nulla sagittis sem
+tellus, ~sed porttitor~ tortor /semper id/. Donec _sed semper_ quam, id venenatis
+tellus. Pellentesque fermentum +justo vel+ est sagittis gravida. Suspendisse
+aliquet *cursus [[http://www.example.com][exemplo]] dui* eu congue. Nunc =finibus ultrices= arcu at gravida. Mauris
+maximus malesuada dignissim. Nulla +varius =feugiat= dictum+.
+
+Donec _tincidunt [[#some-crazy-id][ante]] vitae_ ligula efficitur, auctor bibendum lorem malesuada.
+Aliquam pharetra est quis odio egestas, ut pretium sapien consequat. Integer
+imperdiet^venenatis augue_porttitor _pharetra_. Praesent _eget risus_iaculis_,
+*pharetra {{{foo(321)}}}urna sit amet*, tincidunt dui. Pellentesque dapibus pharetra velit, at
+pellentesque tortor. Cras /rhoncus commodo {{{bar}}} nunc/ et consequat. Donec magna felis,
+iaculis non fringilla non, malesuada vitae nunc. Suspendisse potenti. Vivamus
+sed justo laoreet, tristique lorem vitae, porttitor tellus. Ut viverra et nunc
+at pellentesque. Donec interdum magna sed metus ornare, a maximus nulla congue.
+
+** Tables
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+  | Name  | Phone | Age |
+  |-------+-------+-----|
+  | Peter |  1234 |  17 |
+  | Anna  |  4321 |  25 |
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+  | First  | Phone | Age |
+  | Name  | Number | (Years) |
+  |-------+------
+  | Peter |  1234 |  17 |
+  | Anna  |  4321 |  25 |
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+  | Peter |  1234 |  17 |
+  |-------+-------+-----|
+  | Anna  |  4321 |  25 |
+  |-------+-------+-----|
+  | *Peter* |  1234 |  17 |
+  | ~Anna~  |  [[#some-crazy-id]] |  25 |
+  | Peter |  1234 |  [[http://www.example.com][example.com]] |
+  | {{{abu}}} |  4321 |  25 |
+  |-------+-------+-----|
+  | Peter |  1234 |  17 |
+  | Anna  |  4321 |  25 |
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+  | Peter |  1234 |  17 |
+  | Anna  |  4321 |  25 |
+  |-
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+  | Peter |  1234 |  17 |
+  | Anna  |  4321 |  25 |
+  |-abu
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+|Company|Contact|Country|
+|-
+|Alfreds Futterkiste|Maria Anders|Germany|
+|Centro comercial Moctezuma|Francisco Chang|Mexico|
+|Ernst Handel|Roland Mendel|Austria|
+|Island Trading|Helen Bennett|UK|
+|Laughing Bacchus Winecellars|Yoshi Tannamuri|Canada|
+|Magazzini Alimentari Riuniti|Giovanni Rovelli|Italy|
+
+* Properties, clocking
+
+** This heading has some properties
+:PROPERTIES:
+:foo: bar
+:foo-bar: 123
+:CUSTOM_ID: some-crazy-id
+:END:
+
+** This heading has no properties
+
 :PROPERTIES:
 :foo: bar
 :END:
 
-asd asd dfsdf asdasd asdasd asdasd
-#+BEGIN_FOO asdas  asd
-  asd
-#+END_FOO
-asd asd dfsdf asdasd asdasd asdasd
+** Another heading with properties
+ :PROPERTIES:
+ :header-args+: :var bar=2
+ :header-args: :var foo=1
+ :END:
 
-#+BEGIN: columnview
-   | Name  | Phone | Age |
-   |-------+-------+-----|
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
-   |-------+-------+-----|
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
-#+END:
+* Blocks
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-#+BEGIN_SRC foo
-asda  asdas
-asdd adasd
+#+BEGIN_EXAMPLE
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#+END_EXAMPLE
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#+BEGIN_COMMENT
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#+END_COMMENT
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#+BEGIN_QUOTE
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#+END_QUOTE
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#+BEGIN_VERSE
+Lorem ipsum dolor sit amet,
+consectetur adipiscing elit.
+#+END_VERSE
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#+BEGIN_SRC python
+def foo(bar, abu)
+    for i in range(abu)
+        print(bar + 3)
+    return 4
 #+END_SRC
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-*** Wololo Bar
+#+BEGIN_SRC
+do this and that
+get these and those
+#+END_SRC
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-**** Wololo Bar
+#+BEGIN_FOO bar
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#+END_FOO
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
- | asd |
- |-
- |
- |
+#+BEGIN_EXPORT html
+<p><em>Raw HTML content</em></p>
+#+END_EXPORT
 
-***** Wololo Bar
+* Includes
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+#+INCLUDE: "./included.org"
 
-****** Wololo Bar
+* Itemizations, Enumerations, Description lists
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-* TODO [#A] foo bar foo :bar:
+- This is an item
+  * This is an item
++ This is an item
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-** COMMENT DONE [#B] foo bar foo :bar:
+** Organize party [2/4]
+  - [-] call people [1/3]
+    - [ ] Peter
+    - [X] Sarah
+    - [ ] Sam
+  - [X] order food
+  - [ ] think about what music to play
+  - [X] talk to the neighbors
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-*** WIP [#C] foo bar foo :bar:
+  - name :: description
+  + name :: description
+  * name :: description
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-**** COMMENT CANCELED [#D] foo bar foo :bar:foo:
+1. This is an enumeration
+1. This is an enumeration
+10. This is an enumeration
+2) This is an enumration
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+** Autoformat
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+- Foo Bar
+  - Bar Foo
+    + Wololo Abu
+    # foo
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+1. Foo Bar
+2. Bar Foo
+    1. Wololo Abu
 
-***** BUG [#A] foo bar foo :bar:
+* Todo lists and complex headings
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-* Show
+** TODO [#D] Very complex task 1 :tagA:tagB:
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-# foo
+** DONE Very complex task 2 :tagA:
 
-[#foo]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-asd asd dfsdf {{{asdasd}}} asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+** [#A] Very complex task 3 :tagB:
 
-- [x] adasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-  * asdasd
-  + adasda
+** DONE[#D] Very complex task 3  :not-a-tag:
 
-  + [x] asdasdas
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-  + asdasd :: asda asdsad
+** TODOVery complex task 4
 
-  * [x] asdd :: asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+** [#A]Very complex task 5:nota_tag:
 
-  1. asd
-    1. asd
-# asd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdas
+** COMMENT Very complex task 6
 
-asd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-   | Name  | Phone | Age |
-   |-------+-------+-----|
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
-   |-------+-------+-----|
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
+** COMMENT[#B] Very complex task 7
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
-   | Anna  |  4321 |  25 |
-   |-------+-------+-----|
-   | Peter |  1234 |  17 |
+** COMMENTFIXME [#B] Very complex task 8
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-   |-------+-------+-----|
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
+** COMMENT WIP [#C] Very complex task 9
 
-asd asd dfsdf asdasd asdasd asdasd
-asd asd dfsdf asdasd asdasd asdasd
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-   | Peter |  1234 |  17 |
-   | Anna  |  4321 |  25 |
+** Very complex task 9:not-a-tag:
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+** Very complex task 10  :tag1:
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
