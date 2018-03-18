@@ -1,9 +1,3 @@
-" Vim syntax file
-"
-" Author:      Filipe L B Correia <filipelbc@gmail.com>
-"
-" Language:    Orgmode
-
 if exists("b:current_syntax")
     finish
 endif
