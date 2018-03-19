@@ -1,0 +1,50 @@
+#+title: Test file for integration with Emacs and Org
+
+The quick brown fox jumps over the lazy dog
+
+Column view to be computed:
+
+#+BEGIN: columnview :id global
+#+END:
+
+The quick brown fox jumps over the lazy dog
+
+* DONE [#A] Foo Bar :t123:
+
+The quick brown fox jumps over the lazy dog
+
+** DONE [#A] Bar Foo :tagA:
+
+The quick brown fox jumps over the lazy dog
+
+*** DONE [#B] Foo Bar Foo :tagB:
+
+The quick brown fox jumps over the lazy dog
+
+*** DONE [#C] Bar Foo Bar :tagB:tagC:
+
+The quick brown fox jumps over the lazy dog
+
+* TODO Unaligned table
+
+The quick brown fox jumps over the lazy dog
+
+| Foo | Bar
+|-
+| Bar
+| Wololo | Abu
+
+The quick brown fox jumps over the lazy dog
+
+* TODO Table with formulas
+
+The quick brown fox jumps over the lazy dog
+
+| x | y | z |
+|---+---+---|
+| 1 |   |   |
+| 2 |   |   |
+#+TBLFM: $2=$1*2,$3=$1*$2
+#+TBLFM: $2=$1*3
+
+The quick brown fox jumps over the lazy dog
