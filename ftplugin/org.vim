@@ -13,21 +13,32 @@ setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
 
-command OrgExport call OrgExportHTML()
-
-command OrgFmtTable     call OrgCommand('FmtTable')
-command OrgFmtAllTables call OrgCommand('FmtAllTables')
-command OrgUpDblock     call OrgCommand('UpDblock')
-command OrgUpAllDblocks call OrgCommand('UpAllDblocks')
-command OrgUpTable      call OrgCommand('UpTable')
-command OrgUpAllTables  call OrgCommand('UpAllTables')
-command OrgUpAll        call OrgCommand('UpAll')
+command! OrgExport call OrgExportHTML()
 
 if ! exists('g:org_path_to_emacs_el')
     let g:org_path_to_emacs_el = '~/.emacs'
 endif
 
 let s:org_emacs_cmd = 'emacs --batch --load ' . shellescape(g:org_path_to_emacs_el)
+
+let s:org_progs = {
+            \   'FmtTable':     '(org-table-align)',
+            \   'FmtAllTables': '(org-table-map-tables ''org-table-align)',
+            \   'UpDblock':     '(org-dblock-update)',
+            \   'UpAllDblocks': '(org-update-all-dblocks)',
+            \   'UpTable':      '(org-table-iterate)',
+            \   'UpAllTables':  '(org-table-iterate-buffer-tables)',
+            \   'ApplyTableFormula': '(org-table-calc-current-TBLFM)',
+            \   'UpAll': [
+            \       '(org-update-all-dblocks)',
+            \       '(org-table-iterate-buffer-tables)',
+            \       '(org-table-map-tables ''org-table-align)',
+            \   ],
+            \ }
+
+for k in keys(s:org_progs)
+    execute 'command! Org' . k . ' call OrgCommand(''' . k . ''')'
+endfor
 
 function! OrgEchoError(msg)
     echohl WarningMsg | echo a:msg | echohl None
@@ -46,20 +57,6 @@ function! OrgExportHTML()
         echoerr l:out
     endif
 endfunction
-
-let s:org_progs = {
-            \   'FmtTable':     '(org-table-align)',
-            \   'FmtAllTables': '(org-table-map-tables ''org-table-align)',
-            \   'UpDblock':     '(org-dblock-update)',
-            \   'UpAllDblocks': '(org-update-all-dblocks)',
-            \   'UpTable':      '(org-table-iterate)',
-            \   'UpAllTables':  '(org-table-iterate-buffer-tables)',
-            \   'UpAll': [
-            \       '(org-update-all-dblocks)',
-            \       '(org-table-iterate-buffer-tables)',
-            \       '(org-table-map-tables ''org-table-align)',
-            \   ],
-            \ }
 
 function! OrgMakeProgn(prog)
     if type(a:prog) == v:t_list
