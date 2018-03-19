@@ -77,12 +77,12 @@ function! MakeStyleString(s)
 endfunction
 
 function! RegisterTodoKeys(match)
-    let t = "TODO"
+    let l:t = "TODO"
     for k in split(a:match)
         if k ==# "|"
-            let t = "DONE"
+            let l:t = "DONE"
         else
-            let b:org_todo_keys[k] = t
+            let b:org_todo_keys[k] = l:t
         endif
     endfor
 endfunction
@@ -105,18 +105,18 @@ endfor
 
 for k in keys(b:org_todo_keys)
     if has_key(b:org_todo_styles, k)
-        let s = k
+        let s:s = k
     else
-        let s = b:org_todo_keys[k]
+        let s:s = b:org_todo_keys[k]
     endif
     execute 'syntax keyword orgTodoKey_' . k . ' contained ' . k
-    execute 'hi link orgTodoKey_' . k . ' orgTodoStyle_' . s
+    execute 'hi link orgTodoKey_' . k . ' orgTodoStyle_' . s:s
 endfor
 
 for i in range(len(b:org_priority_keys))
-    let k = b:org_priority_keys[i]
-    execute 'syntax keyword orgPriorityKey_' . k . ' contained ' . k
-    execute 'hi link orgPriorityKey_' . k . ' orgpriorityStyle_' . i
+    let s:k = b:org_priority_keys[i]
+    execute 'syntax keyword orgPriorityKey_' . s:k . ' contained ' . s:k
+    execute 'hi link orgPriorityKey_' . s:k . ' orgpriorityStyle_' . i
 endfor
 
 execute 'syntax cluster orgTodoKeys contains=' . join(map(keys(b:org_todo_keys), "'orgTodoKey_' . v:val"), ',')
@@ -245,3 +245,5 @@ hi link orgPropertyName Statement
 hi link orgBlockDyn String
 hi link orgBlockSrc String
 hi link orgBlockGroup Identifier
+
+let b:current_syntax = 'org'

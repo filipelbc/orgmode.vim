@@ -13,14 +13,14 @@
 #+foo-bar: value
 #+foo_bar: value
 
-#+title: Example
+#+title: Example for checking syntax highlight
 
 # This is a comment
 #This is NOT a comment
 
 The quick brown fox jumps over {{{wo-lo}}} the lazy dog
 
-#+BEGIN: columnview
+#+BEGIN: columnview :id global
 | ITEM                                                | TODO | PRIORITY | TAGS        |
 |-----------------------------------------------------+------+----------+-------------|
 | * The quick brown fox jumps over the lazy dog       |      |          |             |
@@ -40,6 +40,7 @@ The quick brown fox jumps over {{{wo-lo}}} the lazy dog
 | * Includes                                          |      |          |             |
 | * Itemizations, Enumerations, Description lists     |      |          |             |
 | ** Organize party [2/4]                             |      |          |             |
+| ** Autoformat                                       |      |          |             |
 | * lists and complex headings                        |      |          |             |
 | ** Very complex task 1                              | TODO | D        | :tagA:tagB: |
 | ** Very complex task 2                              | DONE |          | :tagA:      |
