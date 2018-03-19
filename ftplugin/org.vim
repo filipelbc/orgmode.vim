@@ -23,9 +23,11 @@ command OrgUpTable      call OrgCommand('UpTable')
 command OrgUpAllTables  call OrgCommand('UpAllTables')
 command OrgUpAll        call OrgCommand('UpAll')
 
-let g:org_path_to_emacs_el = './emacs.el'
+if ! exists('g:org_path_to_emacs_el')
+    let g:org_path_to_emacs_el = '~/.emacs'
+endif
 
-let g:org_emacs_cmd = 'emacs --batch --load ' . shellescape(g:org_path_to_emacs_el)
+let s:org_emacs_cmd = 'emacs --batch --load ' . shellescape(g:org_path_to_emacs_el)
 
 function! OrgEchoError(msg)
     echohl WarningMsg | echo a:msg | echohl None
@@ -33,7 +35,7 @@ endfunction
 
 function! OrgExportHTML()
     let l:cmd = [
-                \   g:org_emacs_cmd,
+                \   s:org_emacs_cmd,
                 \   '--file', expand('%'),
                 \   '--funcall', 'org-html-export-to-html'
                 \ ]
@@ -89,7 +91,7 @@ function! OrgCommand(cmd)
     let l:col = l:view['col'] + 1
 
     let l:cmd = [
-                \   g:org_emacs_cmd,
+                \   s:org_emacs_cmd,
                 \   '+' . l:line,
                 \   '--file', l:tmp_file,
                 \   '--eval', OrgMakeProgn(l:prog)
