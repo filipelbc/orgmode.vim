@@ -189,7 +189,7 @@ hi link orgTableHeaderCell orgBold
 
 " Links
 syntax match orgLinkBorder contained "\[\[\|\]\[\|\]\]" conceal
-syntax match orgLinkURL contained "\(\[\[\)\@<=[^]]\{-}\ze\]\[" conceal
+syntax match orgLinkURL contained "\[\[[^]]\{-}\]\[" conceal contains=orgLinkBorder
 
 syntax match orgLink "\[\[.\{-}\]\]" contains=orgLinkBorder,orgLinkURL
 

@@ -322,3 +322,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ** Very complex task 10  :tag1:
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+* Many links in a table
+
+| Table Header |
+|-
+| Foo [[https://superuser.com/questions/1111109/vim-slow-at-rendering-the-buffer-with-latex-syntax-highlighting][example.com]] Bar |
+| Foo [[https://superuser.com/questions/1111109/vim-slow-at-rendering-the-buffer-with-latex-syntax-highlighting][example.com]] Bar |
+| Foo [[https://superuser.com/questions/1111109/vim-slow-at-rendering-the-buffer-with-latex-syntax-highlighting][example.com]] Bar |
