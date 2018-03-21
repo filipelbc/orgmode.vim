@@ -13,7 +13,7 @@ setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
 
-command! OrgExport call OrgExportHTML()
+command! OrgExport call OrgExportToHTML()
 
 if ! exists('g:org_path_to_emacs_el')
     let g:org_path_to_emacs_el = '~/.emacs'
@@ -48,48 +48,50 @@ let s:org_emacs_status = 0
 let s:org_emacs_version = ''
 let s:org_emacs_orgmode_version = ''
 
-function! OrgCheckEmacs()
+function! OrgEchoError(msg)
+    echohl WarningMsg | echomsg a:msg | echohl None
+endfunction
+
+function! OrgCheckEmacsOrgAvailability()
+    let l:out = systemlist(s:org_emacs_cmd . ' --version')
+
+    if v:shell_error == 0
+        let s:org_emacs_version = l:out[0]
+        echomsg s:org_emacs_version
+    else
+        let s:org_emacs_status = -1
+    endif
+
+    let l:out = systemlist(s:org_emacs_cmd . ' --funcall org-version')
+
+    if v:shell_error == 0 && l:out[-1] =~ '^Org mode version \d\+\.\d\+\.\d\+'
+        let s:org_emacs_orgmode_version = l:out[-1]
+        echomsg s:org_emacs_orgmode_version
+    else
+        let s:org_emacs_status = -2
+    endif
+
     if s:org_emacs_status == 0
-        let l:out = systemlist(s:org_emacs_cmd . ' --version')
+        let s:org_emacs_status = 1
+    endif
+endfunction
 
-        if v:shell_error == 0
-            echo l:out[0]
-            let s:org_emacs_version = l:out[0]
-        else
-            let s:org_emacs_status = -1
-        endif
-
-        let l:out = systemlist(s:org_emacs_cmd . ' --funcall org-version')
-
-        if v:shell_error == 0 && l:out[-1] =~ '^Org mode version \d\+\.\d\+\.\d\+'
-            echo l:out[-1]
-            let s:org_emacs_orgmode_version = l:out[-1]
-        else
-            let s:org_emacs_status = -2
-        endif
-
-        if s:org_emacs_status == 0
-            let s:org_emacs_status = 1
-        endif
+function! OrgAreEmacsOrgAvailable()
+    if s:org_emacs_status == 0
+        call OrgCheckEmacsOrgAvailability()
     endif
 
     if s:org_emacs_status == -1
-        echoerr 'Emacs not present'
-        return v:false
+        call OrgEchoError('Emacs not available')
     elseif s:org_emacs_status == -2
-        echoerr 'Orgmode not present'
-        return v:false
+        call OrgEchoError('Orgmode not available')
     endif
 
-    return v:true
+    return s:org_emacs_status == 1
 endfunction
 
-function! OrgEchoError(msg)
-    echohl WarningMsg | echo a:msg | echohl None
-endfunction
-
-function! OrgExportHTML()
-    if ! OrgCheckEmacs()
+function! OrgExportToHTML()
+    if ! OrgAreEmacsOrgAvailable()
         return
     endif
 
@@ -117,7 +119,7 @@ function! OrgMakeProgn(prog)
 endfunction
 
 function! OrgCommand(cmd)
-    if ! OrgCheckEmacs()
+    if ! OrgAreEmacsOrgAvailable()
         return
     endif
 
