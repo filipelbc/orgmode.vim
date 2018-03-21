@@ -61,7 +61,7 @@ function! OrgCheckEmacs()
 
         let l:out = systemlist(s:org_emacs_cmd . ' --funcall org-version')
 
-        if v:shell_error == 0 && l:out[-1] =~ '/Org mode version \d\+\.\d\+\.\d\+/'
+        if v:shell_error == 0 && l:out[-1] =~ '^Org mode version \d\+\.\d\+\.\d\+'
             echo l:out[-1]
             let s:org_emacs_orgmode_version = l:out[-1]
         else
