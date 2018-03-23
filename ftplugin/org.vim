@@ -26,18 +26,34 @@ endif
 let s:org_emacs_cmd = g:org_emacs_executable . ' --batch --load ' . shellescape(g:org_path_to_emacs_el)
 
 let s:org_progs = {
-            \   'FmtTable':     '(org-table-align)',
-            \   'FmtAllTables': '(org-table-map-tables ''org-table-align)',
-            \   'UpDblock':     '(org-dblock-update)',
-            \   'UpAllDblocks': '(org-update-all-dblocks)',
-            \   'UpTable':      '(org-table-iterate)',
-            \   'UpAllTables':  '(org-table-iterate-buffer-tables)',
+            \   'FmtTable':          '(org-table-align)',
+            \   'FmtAllTables':      '(org-table-map-tables ''org-table-align)',
+            \   'UpDblock':          '(org-dblock-update)',
+            \   'UpAllDblocks':      '(org-update-all-dblocks)',
+            \   'UpTable':           '(org-table-iterate)',
+            \   'UpAllTables':       '(org-table-iterate-buffer-tables)',
             \   'ApplyTableFormula': '(org-table-calc-current-TBLFM)',
             \   'UpAll': [
             \       '(org-update-all-dblocks)',
             \       '(org-table-iterate-buffer-tables)',
             \       '(org-table-map-tables ''org-table-align)',
             \   ],
+            \   'MoveColRight': {
+            \       'prog': '(org-table-move-column-right)',
+            \       'cursor': 'col',
+            \   },
+            \   'MoveColLeft': {
+            \       'prog': '(org-table-move-column-left)',
+            \       'cursor': 'col',
+            \   },
+            \   'DelCol': {
+            \       'prog': '(org-table-delete-column)',
+            \       'cursor': 'col',
+            \   },
+            \   'AddCol': {
+            \       'prog': '(org-table-insert-column)',
+            \       'cursor': 'col',
+            \   },
             \ }
 
 for k in keys(s:org_progs)
@@ -104,17 +120,24 @@ function! OrgExportToHTML()
     let l:out = system(join(l:cmd))
 
     if v:shell_error != 0
-        echoerr l:out
+        OrgEchoError(l:out)
     endif
 endfunction
 
 function! OrgMakeProgn(prog)
-    if type(a:prog) == v:t_list
-        let l:prog = join(a:prog, ' ')
-    else
-        let l:prog = a:prog
+    " Support the different kinds of way to define a program (string, list,
+    " dictionary)
+    let l:prog = type(a:prog) == v:t_dict ? a:prog['prog'] : a:prog
+
+    let l:prog = (type(l:prog) == v:t_list ? join(l:prog, ' ') : l:prog)
+
+    " If a dictionary, check if asking for cursor
+    if type(a:prog) == v:t_dict && has_key(a:prog, 'cursor')
+        let l:prog .= ' (message "Col %s" (current-column)) (what-line)'
     endif
 
+    " Besides executing the program, it also prints the current cursor column
+    " and line, then saves the file
     return shellescape('(progn ' . l:prog . ' (save-buffer))')
 endfunction
 
@@ -123,7 +146,7 @@ function! OrgCommand(cmd)
         return
     endif
 
-    " Which elist program to use
+    " Which program to use
     let l:prog = s:org_progs[a:cmd]
 
     " Save some view state
@@ -143,12 +166,12 @@ function! OrgCommand(cmd)
 
     let l:cmd = [
                 \   s:org_emacs_cmd,
-                \   '+' . l:line,
+                \   '+' . l:line . ':' . l:col,
                 \   '--file', l:tmp_file,
                 \   '--eval', OrgMakeProgn(l:prog)
                 \ ]
 
-    let l:out = system(join(l:cmd, ' '))
+    let l:out = systemlist(join(l:cmd, ' '))
 
     " Get result
     if v:shell_error == 0
@@ -161,8 +184,21 @@ function! OrgCommand(cmd)
 
         " Restore some view state
         call winrestview(l:view)
+
+        " Restore cursor position
+        if type(l:prog) == v:t_dict && has_key(l:prog, 'cursor')
+            let l:col = matchstr(l:out[-2], '^Col \zs\d\+$')
+            let l:line = matchstr(l:out[-1], '^Line \zs\d\+$')
+
+            if l:col != '' && l:line != ''
+                let l:cur_pos = getpos('.')
+                let l:cur_pos[1] = str2nr(l:line)
+                let l:cur_pos[2] = str2nr(l:col) + 1
+                call setpos('.', l:cur_pos)
+            endif
+        endif
     else
-        call OrgEchoError(l:out)
+        call OrgEchoError(join(l:out, '\n'))
     endif
 
     " Delete undo file
