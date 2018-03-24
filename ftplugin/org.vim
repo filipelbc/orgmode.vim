@@ -14,6 +14,14 @@ setlocal nowrap
 setlocal textwidth=77
 
 command! OrgExport call OrgExportToHTML()
+command! OrgGuessCommand call OrgGuessCommand()
+
+if !exists("g:no_plugin_maps") && !exists("g:no_org_maps")
+    if !hasmapto('<Plug>OrgGuessCommand')
+        nmap <buffer> cc <Plug>OrgGuessCommand
+    endif
+    nnoremap <buffer> <Plug>OrgGuessCommand :OrgGuessCommand<CR>
+endif
 
 if ! exists('g:org_path_to_emacs_el')
     let g:org_path_to_emacs_el = '~/.emacs'
