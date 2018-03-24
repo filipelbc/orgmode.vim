@@ -56,6 +56,12 @@ let s:org_progs = {
             \   },
             \ }
 
+let s:org_prog_guesses = {
+            \ '^\s*#+BEGIN:': 'UpDblock',
+            \ '^\s*#+TBLFM:': 'ApplyTableFormula',
+            \ '^\s*|':        'UpTable'
+            \ }
+
 for k in keys(s:org_progs)
     execute 'command! Org' . k . ' call OrgCommand(''' . k . ''')'
 endfor
@@ -203,4 +209,14 @@ function! OrgCommand(cmd)
 
     " Delete undo file
     call delete(l:undo_file)
+endfunction
+
+function! OrgGuessCommand()
+    let l:line = getline('.')
+    for k in keys(s:org_prog_guesses)
+        if l:line =~? k
+            echo 'Org' . s:org_prog_guesses[k]
+            return OrgCommand(s:org_prog_guesses[k])
+        endif
+    endfor
 endfunction
