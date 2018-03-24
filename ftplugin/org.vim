@@ -65,7 +65,7 @@ let s:org_emacs_version = ''
 let s:org_emacs_orgmode_version = ''
 
 function! OrgEchoError(msg)
-    echohl WarningMsg | echomsg a:msg | echohl None
+    echohl WarningMsg | echo a:msg | echohl None
 endfunction
 
 function! OrgCheckEmacsOrgAvailability()
