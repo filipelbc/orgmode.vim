@@ -152,10 +152,6 @@ function! OrgCommand(cmd)
     " Save some view state
     let l:view = winsaveview()
 
-    " Save undo history
-    let l:undo_file = tempname()
-    execute 'wundo! ' . l:undo_file
-
     " Write contents of current unsaved buffer into temporary file
     let l:tmp_file = tempname() . '.org'
     call writefile(getline(1, '$'), l:tmp_file)
@@ -175,12 +171,15 @@ function! OrgCommand(cmd)
 
     " Get result
     if v:shell_error == 0
-        " Replace current file with temporary file and reload it
-        call rename(l:tmp_file, expand('%'))
-        silent edit!
-
-        " Restore undo history
-        silent! execute 'rundo ' . l:undo_file
+        " Replace buffer contents
+        "   Deletes the whole content of the buffer, appends the new content,
+        "   then deletes the remaining empty line. The 'normal! a \b' line is
+        "   a hack to avoid changing the cursor position when undoing the
+        "   change.
+        execute 'normal! a \b'
+        %delete
+        call append(0, readfile(l:tmp_file))
+        delete
 
         " Restore some view state
         call winrestview(l:view)
@@ -200,7 +199,4 @@ function! OrgCommand(cmd)
     else
         call OrgEchoError(join(l:out, '\n'))
     endif
-
-    " Delete undo file
-    call delete(l:undo_file)
 endfunction
