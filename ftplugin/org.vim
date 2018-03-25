@@ -30,6 +30,7 @@ let s:org_progs = {
             \   'FmtAllTables':      '(org-table-map-tables ''org-table-align)',
             \   'UpDblock':          '(org-dblock-update)',
             \   'UpAllDblocks':      '(org-update-all-dblocks)',
+            \   'ExecuteSrcBlock':   '(org-babel-execute-maybe)',
             \   'UpTable':           '(org-table-iterate)',
             \   'UpAllTables':       '(org-table-iterate-buffer-tables)',
             \   'ApplyTableFormula': '(org-table-calc-current-TBLFM)',
