@@ -14,6 +14,14 @@ setlocal nowrap
 setlocal textwidth=77
 
 command! OrgExport call OrgExportToHTML()
+command! OrgGuessCommand call OrgGuessCommand()
+
+if !exists("g:no_plugin_maps") && !exists("g:no_org_maps")
+    if !hasmapto('<Plug>OrgGuessCommand')
+        nmap <buffer> cc <Plug>OrgGuessCommand
+    endif
+    nnoremap <buffer> <Plug>OrgGuessCommand :OrgGuessCommand<CR>
+endif
 
 if ! exists('g:org_path_to_emacs_el')
     let g:org_path_to_emacs_el = '~/.emacs'
@@ -55,6 +63,12 @@ let s:org_progs = {
             \       'prog': '(org-table-insert-column)',
             \       'cursor': 'col',
             \   },
+            \ }
+
+let s:org_prog_guesses = {
+            \ '^\s*#+BEGIN:': 'UpDblock',
+            \ '^\s*#+TBLFM:': 'ApplyTableFormula',
+            \ '^\s*|':        'UpTable'
             \ }
 
 for k in keys(s:org_progs)
@@ -200,4 +214,14 @@ function! OrgCommand(cmd)
     else
         call OrgEchoError(join(l:out, '\n'))
     endif
+endfunction
+
+function! OrgGuessCommand()
+    let l:line = getline('.')
+    for k in keys(s:org_prog_guesses)
+        if l:line =~? k
+            echo 'Org' . s:org_prog_guesses[k]
+            return OrgCommand(s:org_prog_guesses[k])
+        endif
+    endfor
 endfunction
