@@ -31,7 +31,10 @@ The quick brown fox jumps over the lazy dog
 
 #+NAME: my-fun
 #+BEGIN_SRC python :var x=3 :var y=5
-return x * y * 2
+def foo(x, y)
+    return x * y * 2
+
+return foo(x, y)
 #+END_SRC
 
 The quick brown fox jumps over the lazy dog
@@ -45,6 +48,13 @@ The quick brown src_python[:var x=5]{return 3 * 4 + x} fox jumps over the lazy d
 The quick brown call_my-fun(3,4) fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
+
+** Inlinse src block inside table
+
+| Foo | Bar
+|-
+| src_python[:var x=5]{return 3 * 4 + x} | Foo
+| Bar | call_my-fun(3,4) |
 
 * TODO Unaligned table
 

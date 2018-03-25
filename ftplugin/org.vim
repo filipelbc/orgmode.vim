@@ -35,17 +35,17 @@ let s:org_emacs_cmd = g:org_emacs_executable . ' --batch --load ' . shellescape(
 
 let s:org_progs = {
             \   'FmtTable':          '(org-table-align)',
-            \   'FmtAllTables':      '(org-table-map-tables ''org-table-align)',
+            \   'FmtAllTables':      "(org-table-map-tables 'org-table-align)",
             \   'UpDblock':          '(org-dblock-update)',
             \   'UpAllDblocks':      '(org-update-all-dblocks)',
             \   'ExecuteSrcBlock':   '(org-babel-execute-maybe)',
             \   'UpTable':           '(org-table-iterate)',
             \   'UpAllTables':       '(org-table-iterate-buffer-tables)',
-            \   'ApplyTableFormula': '(org-table-calc-current-TBLFM)',
+            \   'ApplyTableFormula': "(require 'org-table) (org-table-calc-current-TBLFM)",
             \   'UpAll': [
             \       '(org-update-all-dblocks)',
             \       '(org-table-iterate-buffer-tables)',
-            \       '(org-table-map-tables ''org-table-align)',
+            \       "(org-table-map-tables 'org-table-align)",
             \   ],
             \   'MoveColRight': {
             \       'prog': '(org-table-move-column-right)',
@@ -72,7 +72,7 @@ let s:org_prog_guesses = {
             \ }
 
 for k in keys(s:org_progs)
-    execute 'command! Org' . k . ' call OrgCommand(''' . k . ''')'
+    execute 'command! Org' . k . " call OrgCommand('" . k . "')"
 endfor
 
 let s:org_emacs_status = 0
@@ -191,10 +191,10 @@ function! OrgCommand(cmd)
         "   then deletes the remaining empty line. The 'normal! a \b' line is
         "   a hack to avoid changing the cursor position when undoing the
         "   change.
-        execute 'normal! a \b'
-        %delete
-        call append(0, readfile(l:tmp_file))
-        delete
+        silent execute 'normal! a \b'
+        silent %delete
+        silent call append(0, readfile(l:tmp_file))
+        silent delete
 
         " Restore some view state
         call winrestview(l:view)
@@ -221,7 +221,7 @@ function! OrgGuessCommand()
     for k in keys(s:org_prog_guesses)
         if l:line =~? k
             echo 'Org' . s:org_prog_guesses[k]
-            return OrgCommand(s:org_prog_guesses[k])
+            call OrgCommand(s:org_prog_guesses[k])
         endif
     endfor
 endfunction
