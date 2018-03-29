@@ -94,13 +94,6 @@ iaculis non fringilla non, malesuada vitae nunc. Suspendisse potenti. Vivamus
 sed justo laoreet, tristique lorem vitae, porttitor tellus. Ut viverra et nunc
 at pellentesque. Donec interdum magna sed metus ornare, a maximus nulla congue.
 
-Pellentesque *** habitant ~~/.bashrc~ morbi */* /// tristique *~senectus~* et netus et malesuada fames ac
-turpis egestas. Nam eu velit justo. Pellentesque dapibus massa posuere massa
-condimentum, et accumsan ligula gravida. Mauris vel nunc ut nisi tincidunt
-scelerisque nec et libero. Morbi luctus luctus diam, a semper arcu tristique
-sed. Ut nibh nisi, dignissim sed leo id, tincidunt scelerisque justo. In
-varius risus at ultricies venenatis.
-
 ** Tables
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
