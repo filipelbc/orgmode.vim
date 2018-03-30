@@ -12,6 +12,9 @@ setlocal formatoptions=tcron
 setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
+setlocal foldmethod=syntax
+setlocal foldminlines=2
+setlocal foldtext=getline(v:foldstart)
 
 command! OrgExport call OrgExportToHTML()
 command! OrgGuessCommand call OrgGuessCommand()

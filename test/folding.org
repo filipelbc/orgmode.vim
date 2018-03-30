@@ -1,0 +1,88 @@
+#+title: Example to testing folding
+
+* foo
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** bar
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** abu
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+* fuu
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+* fii
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+#+BEGIN_FOO
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+#+END_FOO
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** woo
+:PROPERTIES:
+:foo: bar
+:wololo: age
+:abu: din
+:END:
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+*** wuu
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+*** bee
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** doo
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** waa
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+*** wee
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+* foo
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
