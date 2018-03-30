@@ -3,6 +3,7 @@ if exists("b:current_syntax")
 endif
 
 syntax clear
+syntax sync fromstart
 
 let b:org_todo_keys = {
             \ 'TODO': 'TODO',
@@ -21,7 +22,7 @@ let b:org_priority_styles = [
             \   ['#002b36'],
             \ ]
 
-let b:org_max_sections = 6
+let b:org_max_sections = 7
 let b:org_section_styles = [
             \   ['#dc322f', 'NONE', 'bold'],
             \   ['#268bd2', 'NONE', 'bold'],
@@ -134,6 +135,8 @@ for i in range(b:org_max_sections)
 
     execute 'hi orgSectionStyle' . i . ' ' . MakeStyleString(b:org_section_styles[i])
     execute 'hi link orgSection' . i . ' orgSectionStyle' . i
+
+    execute 'syntax region orgFold' . i . ' start="^\*\{' . (i + 1) . '} " end="\ze\n\*\{' . (i + 1) . '} " fold transparent keepend'
 endfor
 
 " From now on, ignore case
@@ -199,16 +202,16 @@ hi link orgLinkBorder Special
 hi link orgLinkURL Type
 
 " Properties
-syntax region orgProperties contained matchgroup=orgPropertiesGroup start="^\s*:PROPERTIES:\s*$" end="^\s*:END:\s*$" contains=orgProperty
+syntax region orgProperties contained matchgroup=orgPropertiesGroup start="^\s*:PROPERTIES:\s*$" end="^\s*:END:\s*$" keepend fold contains=orgProperty
 syntax match orgPropertyValue contained ".*"
 syntax match orgPropertyName contained "^\s*\zs:\k\+:" nextgroup=orgPropertyValue skipwhite
 syntax match orgProperty contained "^\s*:\k\+:.*$" transparent contains=orgPropertyName
 
 " Blocks
-syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend contains=@orgTableContained
-syntax region orgBlockGeneric matchgroup=orgBlockGroup start="^\s*#+BEGIN_\z\([^ ]\+\)\( .*\)\=$" end="^\s*#+END_\z1\s*$" keepend
-syntax region orgBlockComment matchgroup=orgComment start="^\s*#+BEGIN_COMMENT\( .*\)\=$" end="^\s*#+END_COMMENT\s*$" keepend
-syntax region orgBlockSrc matchgroup=orgBlockGroup start="^\s*#+BEGIN_SRC\( .*\)\=$" end="^\s*#+END_SRC\s*$" keepend
+syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend fold contains=@orgTableContained
+syntax region orgBlockGeneric matchgroup=orgBlockGroup start="^\s*#+BEGIN_\z\([^ ]\+\)\( .*\)\=$" end="^\s*#+END_\z1\s*$" keepend fold
+syntax region orgBlockComment matchgroup=orgComment start="^\s*#+BEGIN_COMMENT\( .*\)\=$" end="^\s*#+END_COMMENT\s*$" keepend fold
+syntax region orgBlockSrc matchgroup=orgBlockGroup start="^\s*#+BEGIN_SRC\( .*\)\=$" end="^\s*#+END_SRC\s*$" keepend fold
 
 " Colors
 execute 'hi orgSectionMeta ' . MakeStyleString(b:org_section_meta_style)
