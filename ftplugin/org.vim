@@ -138,7 +138,7 @@ function! OrgExportToHTML()
     let l:out = system(join(l:cmd))
 
     if v:shell_error != 0
-        OrgEchoError(l:out)
+        call OrgEchoError(l:out)
     endif
 endfunction
 

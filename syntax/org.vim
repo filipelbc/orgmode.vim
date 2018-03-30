@@ -77,7 +77,7 @@ for m in s:markups
             \ . ' oneline'
             \ . ' keepend'
             \ . s:concealends
-            \ . ' contains=orgCode,orgMacroReplacement,orgLink'
+            \ . ' contains=orgMacroReplacement,orgCode,orgLink'
     execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
     execute 'hi link org' . m[1] . ' org' . m[1]
 
@@ -97,7 +97,9 @@ endfor
 execute 'hi orgCodeGroup ' . MakeStyleString(b:org_markup_group_style)
 execute 'hi link orgCodeGroup orgCodeGroup'
 
-execute 'syntax cluster orgMarkupContained contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
+execute 'syntax cluster orgMarkups contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
+
+syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,@orgMarkups
 
 " Headings
 function! FindAndCall(regex, func_name)
@@ -158,7 +160,7 @@ syntax match orgSectionTag contained "[a-zA-Z0-9]\+"
 syntax match orgSectionTags contained "\s\+:\([a-zA-Z0-9]*:\)\+$" contains=orgSectionTag
 
 for i in range(b:org_max_sections)
-    execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionMeta,orgSectionTags nextgroup=orgProperties skipnl'
+    execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionMeta,orgSectionTags,@orgContained nextgroup=orgProperties skipnl'
 
     execute 'hi orgSectionStyle' . i . ' ' . MakeStyleString(b:org_section_styles[i])
     execute 'hi link orgSection' . i . ' orgSectionStyle' . i
@@ -177,11 +179,13 @@ syntax match orgUnorderedList "^\s*\zs\([-+]\| \*\)\ze "
 syntax match orgDescriptionListName contained "[-+*] \zs.*\ze ::"
 syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\ze " contains=orgDescriptionListName
 
+syntax cluster orgLists contains=orgOrderedList,orgUnorderedList,orgDescriptionList
+
 " Comment
 syntax match orgComment "^\s*#\s.*"
 
 " Config
-syntax match orgConfigValue contained ".*$" contains=orgMacroReplacement
+syntax match orgConfigValue contained ".*$" contains=@orgContained
 syntax match orgConfig "^\s*#+\k\+:" nextgroup=orgConfigValue skipwhite
 
 syntax match orgTitleValue contained ".*$" contains=orgMacroReplacement
@@ -200,7 +204,7 @@ hi link orgMacroName Special
 hi link orgMacroDefinition Statement
 
 " Tables
-syntax cluster orgCellContains contains=orgTableColDel,orgMacroReplacement,orgCode,orgLink,@orgMarkupContained
+syntax cluster orgCellContains contains=orgTableColDel,@orgContained
 
 syntax match orgTableColDel "|" contained
 
@@ -230,14 +234,21 @@ hi link orgLinkURL Type
 
 " Properties
 syntax region orgProperties contained matchgroup=orgPropertiesGroup start="^\s*:PROPERTIES:\s*$" end="^\s*:END:\s*$" keepend fold contains=orgProperty
-syntax match orgPropertyValue contained ".*"
-syntax match orgPropertyName contained "^\s*\zs:\k\+:" nextgroup=orgPropertyValue skipwhite
-syntax match orgProperty contained "^\s*:\k\+:.*$" transparent contains=orgPropertyName
+syntax match orgPropertyValue contained ".*$" contains=@orgContained
+syntax match orgPropertyName contained "^\s*\zs:\k\++\=:" nextgroup=orgPropertyValue skipwhite
+syntax match orgProperty contained "^\s*:\k\++\=:.*$" transparent contains=orgPropertyName
 
 " Blocks
 syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend fold contains=@orgTableContained
 syntax region orgBlockGeneric matchgroup=orgBlockGroup start="^\s*#+BEGIN_\z\([^ ]\+\)\( .*\)\=$" end="^\s*#+END_\z1\s*$" keepend fold
 syntax region orgBlockComment matchgroup=orgComment start="^\s*#+BEGIN_COMMENT\( .*\)\=$" end="^\s*#+END_COMMENT\s*$" keepend fold
+
+syntax region orgBlockExport  matchgroup=orgBlockGroup start="^\s*#+BEGIN_EXPORT\( .*\)\=$"  end="^\s*#+END_EXPORT\s*$"  keepend fold
+syntax region orgBlockExample matchgroup=orgBlockGroup start="^\s*#+BEGIN_EXAMPLE\( .*\)\=$" end="^\s*#+END_EXAMPLE\s*$" keepend fold
+syntax region orgBlockQuote   matchgroup=orgBlockGroup start="^\s*#+BEGIN_QUOTE\( .*\)\=$"   end="^\s*#+END_QUOTE\s*$"   keepend fold contains=@orgContained,@orgLists
+syntax region orgBlockCenter  matchgroup=orgBlockGroup start="^\s*#+BEGIN_CENTER\( .*\)\=$"  end="^\s*#+END_CENTER\s*$"  keepend fold contains=@orgContained,@orgLists
+syntax region orgBlockVerse   matchgroup=orgBlockGroup start="^\s*#+BEGIN_VERSE\( .*\)\=$"   end="^\s*#+END_VERSE\s*$"   keepend fold contains=@orgContained
+
 syntax region orgBlockSrc matchgroup=orgBlockGroup start="^\s*#+BEGIN_SRC\( .*\)\=$" end="^\s*#+END_SRC\s*$" keepend fold
 
 " Colors
@@ -275,5 +286,9 @@ hi link orgPropertyName Statement
 hi link orgBlockDyn String
 hi link orgBlockSrc String
 hi link orgBlockGroup Identifier
+
+hi link orgBlockGeneric String
+hi link orgBlockExport String
+hi link orgBlockExample String
 
 let b:current_syntax = 'org'
