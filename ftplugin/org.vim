@@ -7,8 +7,8 @@ let b:did_ftplugin = 1
 setlocal comments=nb:#\ ,
 setlocal commentstring=#\ %s
 setlocal conceallevel=2
-setlocal formatlistpat=^\\s*\\([-+]\\\|\ \\*\\\|\\d\\+[.)]\\)\\s\\+
-setlocal formatoptions=tcron
+setlocal formatlistpat=^\\s*\\([-+]\\\|\s\\*\\\|\\d\\+[.)]\\)\\s\\+
+setlocal formatoptions=ronq
 setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
