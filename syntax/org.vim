@@ -154,13 +154,14 @@ execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_key
 
 syntax match orgPriority contained "\[#\a\+\] " contains=@orgPriorityKeys
 
-execute 'syntax match orgSectionMeta contained "^\*\+ \+\zs\(COMMENT \+\)\=\(\(' . join(keys(b:org_todo_keys), '\|') . '\) \+\)\=\(\[#\a\+\] \+\)\=" contains=@orgTodoKeys,orgPriority'
+execute 'syntax match orgSectionMeta contained "\(COMMENT \+\)\=\(\(' . join(keys(b:org_todo_keys), '\|') . '\) \+\)\=\(\[#\a\+\] \+\)\=" contains=@orgTodoKeys,orgPriority'
+syntax match orgSectionStars contained "^\*\+ \+" nextgroup=orgSectionMeta transparent contains=NONE
 
 syntax match orgSectionTag contained "[a-zA-Z0-9]\+"
 syntax match orgSectionTags contained "\s\+:\([a-zA-Z0-9]*:\)\+$" contains=orgSectionTag
 
 for i in range(b:org_max_sections)
-    execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionMeta,orgSectionTags,@orgContained nextgroup=orgProperties skipnl'
+    execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionStars,orgSectionTags,@orgContained nextgroup=orgProperties skipnl'
 
     execute 'hi orgSectionStyle' . i . ' ' . MakeStyleString(b:org_section_styles[i])
     execute 'hi link orgSection' . i . ' orgSectionStyle' . i
