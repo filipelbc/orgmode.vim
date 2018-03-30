@@ -179,6 +179,8 @@ syntax match orgUnorderedList "^\s*\zs\([-+]\| \*\)\ze "
 syntax match orgDescriptionListName contained "[-+*] \zs.*\ze ::"
 syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\ze " contains=orgDescriptionListName
 
+syntax cluster orgLists contains=orgOrderedList,orgUnorderedList,orgDescriptionList
+
 " Comment
 syntax match orgComment "^\s*#\s.*"
 
@@ -240,6 +242,13 @@ syntax match orgProperty contained "^\s*:\k\++\=:.*$" transparent contains=orgPr
 syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend fold contains=@orgTableContained
 syntax region orgBlockGeneric matchgroup=orgBlockGroup start="^\s*#+BEGIN_\z\([^ ]\+\)\( .*\)\=$" end="^\s*#+END_\z1\s*$" keepend fold
 syntax region orgBlockComment matchgroup=orgComment start="^\s*#+BEGIN_COMMENT\( .*\)\=$" end="^\s*#+END_COMMENT\s*$" keepend fold
+
+syntax region orgBlockExport  matchgroup=orgBlockGroup start="^\s*#+BEGIN_EXPORT\( .*\)\=$"  end="^\s*#+END_EXPORT\s*$"  keepend fold
+syntax region orgBlockExample matchgroup=orgBlockGroup start="^\s*#+BEGIN_EXAMPLE\( .*\)\=$" end="^\s*#+END_EXAMPLE\s*$" keepend fold
+syntax region orgBlockQuote   matchgroup=orgBlockGroup start="^\s*#+BEGIN_QUOTE\( .*\)\=$"   end="^\s*#+END_QUOTE\s*$"   keepend fold contains=@orgContained,@orgLists
+syntax region orgBlockCenter  matchgroup=orgBlockGroup start="^\s*#+BEGIN_CENTER\( .*\)\=$"  end="^\s*#+END_CENTER\s*$"  keepend fold contains=@orgContained,@orgLists
+syntax region orgBlockVerse   matchgroup=orgBlockGroup start="^\s*#+BEGIN_VERSE\( .*\)\=$"   end="^\s*#+END_VERSE\s*$"   keepend fold contains=@orgContained
+
 syntax region orgBlockSrc matchgroup=orgBlockGroup start="^\s*#+BEGIN_SRC\( .*\)\=$" end="^\s*#+END_SRC\s*$" keepend fold
 
 " Colors
@@ -277,5 +286,9 @@ hi link orgPropertyName Statement
 hi link orgBlockDyn String
 hi link orgBlockSrc String
 hi link orgBlockGroup Identifier
+
+hi link orgBlockGeneric String
+hi link orgBlockExport String
+hi link orgBlockExample String
 
 let b:current_syntax = 'org'

@@ -214,8 +214,26 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+#+BEGIN_CENTER
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+- Itemization
+
+Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement
+
+1. Enumeration
+#+END_CENTER
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
 #+BEGIN_QUOTE
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+- Itemization
+
+Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement
+
+1. Enumeration
 #+END_QUOTE
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -223,6 +241,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 #+BEGIN_VERSE
 Lorem ipsum dolor sit amet,
 consectetur adipiscing elit.
+
+- Not an itemization
+
+Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement
+
+1. Not an enumeration
 #+END_VERSE
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
