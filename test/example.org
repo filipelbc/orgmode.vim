@@ -6,6 +6,7 @@
 #+macro: bar bar wololo age foo
 #+Macro: abu ABU
 #+macro: wo-lo WOLOLO
+#+macro: macro MACRO
 
 #+PRIORITIES: A C D B
 
@@ -20,38 +21,42 @@
 
 The quick brown fox jumps over {{{wo-lo}}} the lazy dog
 
-#+BEGIN: columnview :id global
-| ITEM                                                | TODO | PRIORITY | TAGS        |
-|-----------------------------------------------------+------+----------+-------------|
-| * The quick brown fox jumps over the lazy dog       |      |          |             |
-| ** The quick brown fox jumps over the lazy dog      |      |          |             |
-| *** The quick brown fox jumps over the lazy dog     |      |          |             |
-| **** The quick brown fox jumps over the lazy dog    |      |          |             |
-| ***** The quick brown fox jumps over the lazy dog   |      |          |             |
-| ****** The quick brown fox jumps over the lazy dog  |      |          |             |
-| ******* The quick brown fox jumps over the lazy dog |      |          |             |
-| * Markup, links and tables                          |      |          |             |
-| ** Tables                                           |      |          |             |
-| * Properties, clocking                              |      |          |             |
-| ** This heading has some properties                 |      |          |             |
-| ** This heading has no properties                   |      |          |             |
-| ** Another heading with properties                  |      |          |             |
-| * Blocks                                            |      |          |             |
-| * Includes                                          |      |          |             |
-| * Itemizations, Enumerations, Description lists     |      |          |             |
-| ** Organize party [2/4]                             |      |          |             |
-| ** Autoformat                                       |      |          |             |
-| * lists and complex headings                        |      |          |             |
-| ** Very complex task 1                              | TODO | D        | :tagA:tagB: |
-| ** Very complex task 2                              | DONE |          | :tagA:      |
-| ** Very complex task 3                              |      | A        | :tagB:      |
-| ** DONE[#D] Very complex task 3  :not-a-tag:        |      | D        |             |
-| ** TODOVery complex task 4                          |      |          |             |
-| ** [#A]Very complex task 5:nota_tag:                |      | A        |             |
-| ** COMMENT[#B] Very complex task 7                  |      | B        |             |
-| ** COMMENTFIXME [#B] Very complex task 8            |      | B        |             |
-| ** Very complex task 9:not-a-tag:                   |      |          |             |
-| ** Very complex task 10                             |      |          | :tag1:      |
+#+BEGIN: columnview :id global :indent t
+| ITEM                                                      | TODO | PRIORITY | TAGS        |
+|-----------------------------------------------------------+------+----------+-------------|
+| The quick brown fox jumps over the lazy dog               |      | D        |             |
+| \_  The quick brown fox jumps over the lazy dog           |      | D        |             |
+| \_    The quick brown fox jumps over the lazy dog         |      | D        |             |
+| \_      The quick brown fox jumps over the lazy dog       |      | D        |             |
+| \_        The quick brown fox jumps over the lazy dog     |      | D        |             |
+| \_          The quick brown fox jumps over the lazy dog   |      | D        |             |
+| \_            The quick brown fox jumps over the lazy dog |      | D        |             |
+| Markup, links and tables                                  |      | D        |             |
+| \_  Tables                                                |      | D        |             |
+| Source code blocks                                        |      | D        |             |
+| Properties, clocking                                      |      | D        |             |
+| \_  This heading has some properties                      |      | D        |             |
+| \_  This heading has no properties                        |      | D        |             |
+| \_  Another heading with properties                       |      | D        |             |
+| Blocks                                                    |      | D        |             |
+| Includes                                                  |      | D        |             |
+| Itemizations, Enumerations, Description lists             |      | D        |             |
+| \_  Organize party                                        |      | D        |             |
+| \_  Autoformat                                            |      | D        |             |
+| Todo lists and complex headings                           |      | D        |             |
+| \_  Very complex task 1                                   | TODO | D        | :tagA:tagB: |
+| \_  Very complex task 2                                   | DONE | D        | :tagA:      |
+| \_  Very complex task 3                                   |      | A        | :tagB:      |
+| \_  DONE[#D] Very complex task 3  :not-a-tag:             |      | D        |             |
+| \_  TODOVery complex task 4                               |      | D        |             |
+| \_  [#A]Very complex task 5:nota_tag:                     |      | A        |             |
+| \_  COMMENT[#B] Very complex task 7                       |      | B        |             |
+| \_  COMMENTFIXME [#B] Very complex task 8                 |      | B        |             |
+| \_  Very complex task 9:not-a-tag:                        |      | D        |             |
+| \_  Very complex task 10                                  |      | D        | :tag1:      |
+| Many links in a table                                     |      | D        |             |
+| Contained Items                                           |      | D        |             |
+| \_  Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement  | TODO | A        | :age:       |
 #+END:
 
 The quick brown fox jumps over the lazy dog
@@ -354,3 +359,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 | Foo [[https://superuser.com/questions/1111109/vim-slow-at-rendering-the-buffer-with-latex-syntax-highlighting][example.com]] Bar |
 | Foo [[https://superuser.com/questions/1111109/vim-slow-at-rendering-the-buffer-with-latex-syntax-highlighting][example.com]] Bar |
 | Foo [[https://superuser.com/questions/1111109/vim-slow-at-rendering-the-buffer-with-latex-syntax-highlighting][example.com]] Bar |
+
+* Contained Items
+
+** TODO [#A] Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement :age:
+:PROPERTIES:
+:foo: Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement
+:END:
+
+#+PROP: Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement

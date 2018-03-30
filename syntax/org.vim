@@ -77,7 +77,7 @@ for m in s:markups
             \ . ' oneline'
             \ . ' keepend'
             \ . s:concealends
-            \ . ' contains=orgCode,orgMacroReplacement,orgLink'
+            \ . ' contains=orgMacroReplacement,orgCode,orgLink'
     execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
     execute 'hi link org' . m[1] . ' org' . m[1]
 
@@ -97,7 +97,9 @@ endfor
 execute 'hi orgCodeGroup ' . MakeStyleString(b:org_markup_group_style)
 execute 'hi link orgCodeGroup orgCodeGroup'
 
-execute 'syntax cluster orgMarkupContained contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
+execute 'syntax cluster orgMarkups contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
+
+syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,@orgMarkups
 
 " Headings
 function! FindAndCall(regex, func_name)
@@ -158,7 +160,7 @@ syntax match orgSectionTag contained "[a-zA-Z0-9]\+"
 syntax match orgSectionTags contained "\s\+:\([a-zA-Z0-9]*:\)\+$" contains=orgSectionTag
 
 for i in range(b:org_max_sections)
-    execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionMeta,orgSectionTags nextgroup=orgProperties skipnl'
+    execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionMeta,orgSectionTags,@orgContained nextgroup=orgProperties skipnl'
 
     execute 'hi orgSectionStyle' . i . ' ' . MakeStyleString(b:org_section_styles[i])
     execute 'hi link orgSection' . i . ' orgSectionStyle' . i
@@ -181,7 +183,7 @@ syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\ze " contains=org
 syntax match orgComment "^\s*#\s.*"
 
 " Config
-syntax match orgConfigValue contained ".*$" contains=orgMacroReplacement
+syntax match orgConfigValue contained ".*$" contains=@orgContained
 syntax match orgConfig "^\s*#+\k\+:" nextgroup=orgConfigValue skipwhite
 
 syntax match orgTitleValue contained ".*$" contains=orgMacroReplacement
@@ -200,7 +202,7 @@ hi link orgMacroName Special
 hi link orgMacroDefinition Statement
 
 " Tables
-syntax cluster orgCellContains contains=orgTableColDel,orgMacroReplacement,orgCode,orgLink,@orgMarkupContained
+syntax cluster orgCellContains contains=orgTableColDel,@orgContained
 
 syntax match orgTableColDel "|" contained
 
@@ -230,9 +232,9 @@ hi link orgLinkURL Type
 
 " Properties
 syntax region orgProperties contained matchgroup=orgPropertiesGroup start="^\s*:PROPERTIES:\s*$" end="^\s*:END:\s*$" keepend fold contains=orgProperty
-syntax match orgPropertyValue contained ".*"
-syntax match orgPropertyName contained "^\s*\zs:\k\+:" nextgroup=orgPropertyValue skipwhite
-syntax match orgProperty contained "^\s*:\k\+:.*$" transparent contains=orgPropertyName
+syntax match orgPropertyValue contained ".*$" contains=@orgContained
+syntax match orgPropertyName contained "^\s*\zs:\k\++\=:" nextgroup=orgPropertyValue skipwhite
+syntax match orgProperty contained "^\s*:\k\++\=:.*$" transparent contains=orgPropertyName
 
 " Blocks
 syntax region orgBlockDyn matchgroup=orgBlockGroup start="^\s*#+BEGIN:\( .*\)\=$" end="^\s*#+END:\s*$" keepend fold contains=@orgTableContained
