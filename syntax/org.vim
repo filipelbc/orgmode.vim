@@ -5,6 +5,9 @@ endif
 syntax clear
 syntax sync fromstart
 
+" Settings and options
+let b:org_markup_conceal = exists('g:org_markup_conceal') ? g:org_markup_conceal : 1
+
 let b:org_todo_keys = {
             \ 'TODO': 'TODO',
             \ 'DONE': 'DONE',
@@ -36,45 +39,69 @@ let b:org_section_styles = [
 
 let b:org_title_style = ['#002b36', 'NONE', 'bold']
 
+let b:org_markup_group_style = ['#93a1a1']
+
 let b:org_link_style = ['#268bd2', 'NONE', 'underline']
+
+" Style helper
+function! MakeStyleString(s)
+    return 'guifg=' . a:s[0] . ' guibg=' . get(a:s, 1, 'NONE') . ' cterm=' . get(a:s, 2, 'NONE')
+endfunction
 
 " Markup
 let s:markups = [
             \   ['\*', 'Bold'],
-            \   ['\/', 'Italic'],
+            \   ['/', 'Italic'],
             \   ['_', 'Underline'],
             \   ['+', 'Strikethrough'],
             \ ]
 
 let s:code_markups = ['\~', '=']
 
-function! MarkupEnd(c)
-    return '"\(\s\+\|[,\"'']\)\@<!\zs' . a:c . '\ze\($\|\s\|[)}\"''-.,:!?]\)"'
+function! MarkupEnd(c, ...)
+    let l:extra = (a:0 >= 1) ? '\|[*/+_]\($\|\s\|[-)}\"''.,:;!?]\)' : ''
+    return '"\s\@<!' . a:c . '\($\|\s\|[-)}\"''.,:;!?]' . l:extra . '\)\@="'
 endfunction
 
-function! MarkupStart(c)
-    return '"\(^\|\s\|[({\"'']\)\zs' . a:c . '\ze\(\s\+\|[,\"'']\|' . a:c . '\)\@!"'
+function! MarkupStart(c, ...)
+    let l:extra = (a:0 >= 1) ? '\|\(^\|\s\|[-({\"'']\)[*/+_]' : ''
+    return '"\(^\|\s\|[-({\"'']' . l:extra . '\)\@<=' . a:c . '[^ ]"' . 'rs=e-1'
 endfunction
+
+let s:concealends = b:org_markup_conceal ? ' concealends' : ''
 
 for m in s:markups
-    execute 'syntax region org' . m[1] . ' matchgroup=org' . m[1] . 'Group start=' . MarkupStart(m[0]) . ' end=' . MarkupEnd(m[0]) . ' oneline concealends contains=orgCode,orgMacroReplacement,orgLink'
+    execute 'syntax region org' . m[1] . ' matchgroup=org' . m[1] . 'Group'
+            \ . ' start=' . MarkupStart(m[0])
+            \ . ' end=' . MarkupEnd(m[0])
+            \ . ' oneline'
+            \ . ' keepend'
+            \ . s:concealends
+            \ . ' contains=orgCode,orgMacroReplacement,orgLink'
     execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
-    execute 'hi link org' . m[1] . ' org' . m[1] . ''
+    execute 'hi link org' . m[1] . ' org' . m[1]
+
+    execute 'hi org' . m[1] . 'Group ' . MakeStyleString(b:org_markup_group_style)
+    execute 'hi link org' . m[1] . 'Group org' . m[1] . 'Group'
 endfor
 
 for m in s:code_markups
-    execute 'syntax region orgCode matchgroup=orgCodeGroup start=' . MarkupStart(m) . ' end=' . MarkupEnd(m) . ' oneline concealends'
+    execute 'syntax region orgCode matchgroup=orgCodeGroup'
+                \ . ' start=' . MarkupStart(m, v:true)
+                \ . ' end=' . MarkupEnd(m, v:true)
+                \ . ' oneline'
+                \ . ' keepend'
+                \ . s:concealends
 endfor
+
+execute 'hi orgCodeGroup ' . MakeStyleString(b:org_markup_group_style)
+execute 'hi link orgCodeGroup orgCodeGroup'
 
 execute 'syntax cluster orgMarkupContained contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
 
 " Headings
 function! FindAndCall(regex, func_name)
     execute 'silent keeppatterns %s/' . a:regex . '/\=' . a:func_name. '(submatch(0))/gne'
-endfunction
-
-function! MakeStyleString(s)
-    return 'guifg=' . a:s[0] . ' guibg=' . get(a:s, 1, 'NONE') . ' cterm=' . get(a:s, 2, 'NONE')
 endfunction
 
 function! RegisterTodoKeys(match)

@@ -1,0 +1,27 @@
+#+options: toc:nil
+
+* Edge cases for markups syntax groups
+
+foo ****** **bar** buu * wo*wo * waka
+
+woo **bar *do * wo*** buu
+
+foo "*bar*" foo
+
+foo *"bar"* foo
+
+foo **.bar* foo
+
+doo *** bar
+
+wo **** wo
+
+foo ~~/.foo~ bar
+
+wolo ** bar* wolo
+
+wowo *~bar~* huhu
+
+abu *a ~foo~* woo
+
+bar *~abu~ wo* lol
