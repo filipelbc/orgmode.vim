@@ -7,14 +7,14 @@ let b:did_ftplugin = 1
 setlocal comments=nb:#\ ,
 setlocal commentstring=#\ %s
 setlocal conceallevel=2
+setlocal foldmethod=syntax
+setlocal foldminlines=2
+setlocal foldtext=getline(v:foldstart)
 setlocal formatlistpat=^\\s*\\([-+]\\\|\s\\*\\\|\\d\\+[.)]\\)\\s\\+
 setlocal formatoptions=ronq
 setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
-setlocal foldmethod=syntax
-setlocal foldminlines=2
-setlocal foldtext=getline(v:foldstart)
 
 command! OrgExport call OrgExportToHTML()
 command! OrgGuessCommand call OrgGuessCommand()
