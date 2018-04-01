@@ -1,46 +1,59 @@
 #+title: Example to testing folding
 
-* foo
+#+TODO: TODO WIP REVIEW WAITING | CLOSED ACCEPTED DONE
+
+* Foo Bar
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-** TODO bar
+** CLOSED Abu
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-** TODO abu
+** WIP Abu Bar
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-* COMMENT TODO fuu
+** TODO Bar Buu
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-** TODO fii
+** Foo
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+* COMMENT Fuu
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-#+BEGIN_FOO
-The quick brown fox jumps over the lazy dog
-
-The quick brown fox jumps over the lazy dog
-#+END_FOO
+** Fii
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-** woo
+#+BEGIN_QUOTE
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+#+END_QUOTE
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** Woo
 :PROPERTIES:
 :foo: bar
 :wololo: age
@@ -51,37 +64,87 @@ The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-*** TODO wuu
+*** TODO Woo
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-*** TODO bee
+*** TODO Bee
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-** TODO doo
+** TODO Doo
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-** TODO waa
+** TODO Waa
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-*** wee
+*** Wee
 
 The quick brown fox jumps over the lazy dog
 
 The quick brown fox jumps over the lazy dog
 
-* foo
+*** COMMENT Wololo
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+* Foo
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** DONE Sap
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** DONE Waka Waka
+
+** DONE Din Don
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** ACCEPTED Wolo Fuu
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+*** Bro
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** Faa
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** CLOSED  Brum
+
+The quick brown fox jumps over the lazy dog
+
+The quick brown fox jumps over the lazy dog
+
+** WAITING Boo
 
 The quick brown fox jumps over the lazy dog
 
