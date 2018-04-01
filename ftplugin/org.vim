@@ -16,21 +16,38 @@ setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
 
-command! OrgExport call OrgExportToHTML()
-command! OrgGuessCommand call OrgGuessCommand()
+let s:org_default_maps = [
+            \   ['OrgGuessCommand', 'cc'],
+            \   ['OrgExportToHTML', 'eh'],
+            \   ['OrgMoveColRight', 'cl'],
+            \   ['OrgMoveColLeft',  'ch'],
+            \   ['OrgDelCol',       'cd'],
+            \   ['OrgAddCol',       'ca'],
+            \   ['OrgFmtTable',     'tt'],
+            \ ]
+
+function! OrgDeclareNewMap(cmd, chars)
+    execute 'nnoremap <buffer> <Plug>' . a:cmd . ' :' . a:cmd . '<CR>'
+    if !hasmapto('<Plug>' . a:cmd) && !exists("g:no_org_default_maps")
+        execute 'nmap <buffer> ' . g:org_map_leader . a:chars . ' <Plug>' . a:cmd
+    endif
+endfunction
 
 if !exists("g:no_plugin_maps") && !exists("g:no_org_maps")
-    if !hasmapto('<Plug>OrgGuessCommand')
-        nmap <buffer> cc <Plug>OrgGuessCommand
+    if !exists('g:org_map_leader')
+        let g:org_map_leader = '<leader>'
     endif
-    nnoremap <buffer> <Plug>OrgGuessCommand :OrgGuessCommand<CR>
+
+    for v in s:org_default_maps
+        call OrgDeclareNewMap(v[0], v[1])
+    endfor
 endif
 
-if ! exists('g:org_path_to_emacs_el')
+if !exists('g:org_path_to_emacs_el')
     let g:org_path_to_emacs_el = '~/.emacs'
 endif
 
-if ! exists('g:org_emacs_executable')
+if !exists('g:org_emacs_executable')
     let g:org_emacs_executable = 'emacs'
 endif
 
@@ -77,6 +94,9 @@ let s:org_prog_guesses = {
 for k in keys(s:org_progs)
     execute 'command! Org' . k . " call OrgCommand('" . k . "')"
 endfor
+
+command! OrgExportToHTML call OrgExportToHTML()
+command! OrgGuessCommand call OrgGuessCommand()
 
 let s:org_emacs_status = 0
 let s:org_emacs_version = ''
@@ -159,7 +179,7 @@ function! OrgAreEmacsOrgAvailable()
 endfunction
 
 function! OrgExportToHTML()
-    if ! OrgAreEmacsOrgAvailable()
+    if !OrgAreEmacsOrgAvailable()
         return
     endif
 
@@ -194,7 +214,7 @@ function! OrgMakeProgn(prog)
 endfunction
 
 function! OrgCommand(cmd)
-    if ! OrgAreEmacsOrgAvailable()
+    if !OrgAreEmacsOrgAvailable()
         return
     endif
 
