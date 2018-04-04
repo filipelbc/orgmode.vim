@@ -8,9 +8,10 @@ syntax sync fromstart
 " Settings and options
 let b:org_markup_conceal = exists('g:org_markup_conceal') ? g:org_markup_conceal : 1
 
+" <state>: [<default-style>, <is-end-state>]
 let b:org_todo_keys = {
-            \ 'TODO': 'TODO',
-            \ 'DONE': 'DONE',
+            \ 'DONE': ['DONE', v:true],
+            \ 'TODO': ['TODO', v:false],
             \ }
 
 if exists('g:org_custom_todo_keys')
@@ -58,6 +59,7 @@ let b:org_link_style = ['#268bd2', 'NONE', 'underline']
 
 " Style helper
 function! MakeStyleString(s)
+    " s = [<foregroud>, <backgroud>, <attribute>]
     return 'guifg=' . a:s[0] . ' guibg=' . get(a:s, 1, 'NONE') . ' cterm=' . get(a:s, 2, 'NONE')
 endfunction
 
@@ -120,10 +122,10 @@ function! FindAndCall(regex, func_name)
 endfunction
 
 function! RegisterTodoKeys(match)
-    let l:t = "TODO"
+    let l:t = ["TODO", v:false]
     for k in split(a:match)
         if k ==# "|"
-            let l:t = "DONE"
+            let l:t = ["DONE", v:true]
         else
             let b:org_todo_keys[k] = l:t
         endif

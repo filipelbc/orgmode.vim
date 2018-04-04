@@ -82,6 +82,40 @@ let s:org_emacs_status = 0
 let s:org_emacs_version = ''
 let s:org_emacs_orgmode_version = ''
 
+function! OrgCloseSectionFold()
+    if getline('.') =~? ('^\*\{' . foldlevel('.') . '} ')
+        foldclose
+    endif
+endfunction
+
+function! OrgCloseSectionFolds()
+    let l:items = []
+
+    if g:org_start_with_closed_sections =~# 'endstate'
+        for k in keys(b:org_todo_keys)
+            if b:org_todo_keys[k][1]
+                let l:items += [k]
+            endif
+        endfor
+    endif
+
+    if g:org_start_with_closed_sections =~# 'comment'
+        let l:items += ['COMMENT']
+    endif
+
+    if empty(l:items)
+        let l:pat = '^\*\+\s\+'
+    else
+        let l:pat = '^\*\+\s\+\(' . join(l:items, '\|') . '\)\s'
+    endif
+
+    execute 'normal! g/' . l:pat . '/call OrgCloseSectionFold()'
+endfunction
+
+if exists('g:org_start_with_closed_sections')
+    autocmd BufWinEnter *.org call OrgCloseSectionFolds()
+endif
+
 function! OrgEchoError(msg)
     echohl WarningMsg | echo a:msg | echohl None
 endfunction
