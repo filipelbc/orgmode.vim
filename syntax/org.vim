@@ -12,10 +12,23 @@ let b:org_todo_keys = {
             \ 'TODO': 'TODO',
             \ 'DONE': 'DONE',
             \ }
+
+if exists('g:org_custom_todo_keys')
+    for k in keys(g:org_custom_todo_keys)
+        let b:org_todo_keys[k] = g:org_custom_todo_keys[k]
+    endfor
+endif
+
 let b:org_todo_styles = {
             \   'DONE': ['#00bb00', 'NONE', 'inverse,bold'],
             \   'TODO': ['#ff0000', 'NONE', 'inverse,bold'],
             \ }
+
+if exists('g:org_custom_todo_styles')
+    for k in keys(g:org_custom_todo_styles)
+        let b:org_todo_styles[k] = g:org_custom_todo_styles[k]
+    endfor
+endif
 
 let b:org_section_meta_style = ['#93a1a1']
 let b:org_section_tag_style = ['#002b36']
