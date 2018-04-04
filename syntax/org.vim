@@ -152,7 +152,7 @@ for k in keys(b:org_todo_keys)
     if has_key(b:org_todo_styles, k)
         let s:s = k
     else
-        let s:s = b:org_todo_keys[k]
+        let s:s = b:org_todo_keys[k][0]
     endif
     execute 'syntax keyword orgTodoKey_' . k . ' contained ' . k
     execute 'hi link orgTodoKey_' . k . ' orgTodoStyle_' . s:s
