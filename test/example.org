@@ -305,6 +305,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   - name :: description
   + name :: description
   * name :: description
+  + name ::
+    description
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 

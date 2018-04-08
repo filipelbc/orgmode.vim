@@ -193,7 +193,7 @@ syntax match orgOrderedList "^\s*\zs\d\+[.)]\ze "
 syntax match orgUnorderedList "^\s*\zs\([-+]\| \*\)\ze "
 
 syntax match orgDescriptionListName contained "[-+*] \zs.*\ze ::"
-syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\ze " contains=orgDescriptionListName
+syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\($\| \)" contains=orgDescriptionListName
 
 syntax cluster orgLists contains=orgOrderedList,orgUnorderedList,orgDescriptionList
 
@@ -228,7 +228,7 @@ syntax match orgTableCell "|[^|]*" contained contains=@orgCellContains transpare
 syntax match orgTableHeaderCell "|[^|]*" contained contains=@orgCellContains
 
 syntax match orgTableRow "^\s*|.*" contains=orgTableHeader,orgTableCell transparent
-syntax match orgTableLine "^\s*|-\+\(+-\+\)*\(|\)\=\s*$"
+syntax match orgTableLine "^\s*|-[-+]*|\=\s*$"
 syntax match orgTableHeader "\(^\s*[^|]*\n\s*\)\@<=|[^-].*\n\ze\s*|-" contains=orgTableHeaderCell transparent
 
 syntax cluster orgTableContained contains=orgTableRow,orgTableLine,orgTableHeader
