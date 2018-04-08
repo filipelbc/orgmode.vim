@@ -269,7 +269,7 @@ function! OrgCommand(cmd)
             endif
         endif
     else
-        call OrgEchoError(join(l:out, '\n'))
+        call OrgEchoError(join(l:out, "\n"))
     endif
 endfunction
 
