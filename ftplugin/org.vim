@@ -58,7 +58,16 @@ let s:org_progs = {
             \   'FmtAllTables':      "(org-table-map-tables 'org-table-align)",
             \   'UpDblock':          '(org-dblock-update)',
             \   'UpAllDblocks':      '(org-update-all-dblocks)',
-            \   'ExecuteSrcBlock':   '(org-babel-execute-maybe)',
+            \   'ExecuteSrcBlock': {
+            \       'prog': [
+            \           '(org-babel-execute-maybe)',
+            \           '(let ((errbuf (get-buffer "*Org-Babel Error Output*")))',
+            \           '   (if errbuf',
+            \           '       (with-current-buffer errbuf',
+            \           '           (message (buffer-string)))))',
+            \       ],
+            \       'babel-error': 1,
+            \   },
             \   'UpTable':           '(org-table-iterate)',
             \   'UpAllTables':       '(org-table-iterate-buffer-tables)',
             \   'ApplyTableFormula': "(require 'org-table) (org-table-calc-current-TBLFM)",
@@ -101,6 +110,7 @@ command! OrgGuessCommand call OrgGuessCommand()
 let s:org_emacs_status = 0
 let s:org_emacs_version = ''
 let s:org_emacs_orgmode_version = ''
+let s:org_emacs_output_offset = 0
 
 function! OrgCloseSectionFold()
     if getline('.') =~? ('^\*\{' . foldlevel('.') . '} ')
@@ -151,6 +161,8 @@ function! OrgCheckEmacsOrgAvailability()
     endif
 
     let l:out = systemlist(s:org_emacs_cmd . ' --funcall org-version')
+
+    let s:org_emacs_output_offset = len(l:out) - 1
 
     if v:shell_error == 0 && l:out[-1] =~ '^Org mode version \d\+\.\d\+\.\d\+'
         let s:org_emacs_orgmode_version = l:out[-1]
@@ -267,6 +279,12 @@ function! OrgCommand(cmd)
                 let l:cur_pos[2] = str2nr(l:col) + 1
                 call setpos('.', l:cur_pos)
             endif
+        endif
+
+        " Show babel error
+        if type(l:prog) == v:t_dict && has_key(l:prog, 'babel-error')
+                    \ && l:out[s:org_emacs_output_offset+1] != 'Code block evaluation complete.'
+            echo join(l:out[s:org_emacs_output_offset+3:], "\n")
         endif
     else
         call OrgEchoError(join(l:out, "\n"))
