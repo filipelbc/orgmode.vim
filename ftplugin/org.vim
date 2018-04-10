@@ -95,9 +95,10 @@ let s:org_progs = {
             \ }
 
 let s:org_prog_guesses = {
-            \ '^\s*#+BEGIN:': 'UpDblock',
-            \ '^\s*#+TBLFM:': 'ApplyTableFormula',
-            \ '^\s*|':        'UpTable'
+            \ '^\s*#+BEGIN:':         'UpDblock',
+            \ '^\s*#+TBLFM:':         'ApplyTableFormula',
+            \ '^\s*|':                'UpTable',
+            \ '^\s*#+BEGIN_SRC \k\+': 'ExecuteSrcBlock',
             \ }
 
 for k in keys(s:org_progs)
