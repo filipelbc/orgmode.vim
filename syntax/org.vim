@@ -114,7 +114,13 @@ execute 'hi link orgCodeGroup orgCodeGroup'
 
 execute 'syntax cluster orgMarkups contains=' . join(map(s:markups, '"org" . v:val[1]'), ',')
 
-syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,@orgMarkups
+" Timestamps
+syntax match orgTimestampActive "<\d\d\d\d-\d\d-\d\d\( \w\+\)\=\( \d\d\=:\d\d\)\=>"
+syntax match orgTimestampInactive "\[\d\d\d\d-\d\d-\d\d\( \w\+\)\=\( \d\d\=:\d\d\)\=\]"
+
+syntax cluster orgTimestamps contains=orgTimestampInactive,orgTimestampActive
+
+syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,@orgMarkups,@orgTimestamps
 
 " Headings
 function! FindAndCall(regex, func_name)
@@ -294,6 +300,9 @@ hi link orgUnorderedList Special
 hi link orgMacroReplacement Special
 
 hi link orgCode String
+
+hi link orgTimestampInactive Type
+hi link orgTimestampActive Special
 
 hi link orgPropertiesGroup PreProc
 hi link orgPropertyValue Constant
