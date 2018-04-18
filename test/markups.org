@@ -25,3 +25,25 @@ wowo *~bar~* huhu
 abu *a ~foo~* woo
 
 bar *~abu~ wo* lol
+
+* Timestamps
+
+foo <2018-04-04> bar
+
+foo <2018-04-04 wed> bar
+
+foo <2018-04-04 12:34> bar
+
+foo <2018-04-04 2:34> bar
+
+foo <2018-04-04 wed 12:34> bar
+
+foo [2018-04-04] bar
+
+foo [2018-04-04 wed] bar
+
+foo [2018-04-04 12:34] bar
+
+foo [2018-04-04 2:34] bar
+
+foo [2018-04-04 wed 12:34] bar
