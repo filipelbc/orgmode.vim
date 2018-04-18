@@ -22,6 +22,7 @@
 The quick brown fox jumps over {{{wo-lo}}} the lazy dog
 
 #+BEGIN: columnview :id global :indent t
+#+ATTR_HTML: :class bar
 | ITEM                                                      | TODO | PRIORITY | TAGS        |
 |-----------------------------------------------------------+------+----------+-------------|
 | The quick brown fox jumps over the lazy dog               |      | D        |             |
