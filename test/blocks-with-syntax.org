@@ -1,0 +1,34 @@
+#+TITLE: Test source and export blocks with syntax
+
+Let's try python:
+
+#+BEGIN_SRC python
+# comment
+def foo():
+    return 'wololo'
+
+if isinstance(bar, list):
+    bar.add(12)
+else:
+    bar = []
+#+END_SRC
+
+Now let's try shell script.
+
+#+BEGIN_SRC shell
+# comment
+echo "find something" || exit 1
+grep --color=auto -iIrn "$pattern" $@
+#+END_SRC
+
+#+BEGIN_SRC html
+<!-- comment -->
+<div class="abu">
+<p>Foo Bar</p>
+</div>
+<script>
+var foo = function(bar) {
+    console.log("works!");
+}
+</script>
+#+END_SRC

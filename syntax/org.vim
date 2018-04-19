@@ -273,6 +273,33 @@ syntax region orgBlockVerse   matchgroup=orgBlockGroup start="^\s*#+BEGIN_VERSE\
 
 syntax region orgBlockSrc matchgroup=orgBlockGroup start="^\s*#+BEGIN_SRC\( .*\)\=$" end="^\s*#+END_SRC\s*$" keepend fold
 
+" Regions with external syntaxes
+function! DeclareBlockWithSyntax(block_type, filetype, language)
+    " This function is adapted from the "IncludeEx" function of
+    " https://github.com/vim-scripts/SyntaxRange/blob/master/autoload/SyntaxRange.vim
+
+    let l:region_name = 'orgBlock' . a:block_type . '_' . a:filetype
+    let l:external_syntax = 'orgOtherSyntax_' . a:filetype
+
+    let g:main_syntax = 'org'
+
+    execute 'syntax include @' . l:external_syntax . ' syntax/' . a:filetype . '.vim'
+
+    unlet! b:current_syntax
+    unlet! g:main_syntax
+
+    execute 'syntax region ' . l:region_name . ' matchgroup=orgBlockGroup'
+                \ . ' start="^\s*#+BEGIN_' . toupper(a:block_type) . '\s\+' . a:language . '\( .*\)\=$"'
+                \ . ' end="^\s*#+END_' . toupper(a:block_type) . '\s*$"'
+                \ . ' keepend fold'
+                \ . ' contains=@' . l:external_syntax
+endfunction
+
+call DeclareBlockWithSyntax('Src', 'python', 'python')
+call DeclareBlockWithSyntax('Src', 'sh', 'shell')
+call DeclareBlockWithSyntax('Src', 'html', 'html')
+call DeclareBlockWithSyntax('Export', 'html', 'html')
+
 " Colors
 execute 'hi orgSectionMeta ' . MakeStyleString(b:org_section_meta_style)
 execute 'hi orgSectionTag ' . MakeStyleString(b:org_section_tag_style)
