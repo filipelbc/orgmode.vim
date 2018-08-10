@@ -237,8 +237,13 @@ function! OrgCommand(cmd)
     " Save some view state
     let l:view = winsaveview()
 
-    " Write contents of current unsaved buffer into temporary file
-    let l:tmp_file = tempname() . '.org'
+    " Write contents of current unsaved buffer into a temporary file.
+    " Manage the temporary directory in order to be able to recover generated
+    " files.
+    let l:tmp_dir = tempname()
+    call mkdir(l:tmp_dir, 'p')
+
+    let l:tmp_file = l:tmp_dir . '/' . expand('%:t')
     call writefile(getline(1, '$'), l:tmp_file)
 
     " Call orgformat on temporary file
@@ -287,6 +292,9 @@ function! OrgCommand(cmd)
                     \ && l:out[s:org_emacs_output_offset+1] != 'Code block evaluation complete.'
             echo join(l:out[s:org_emacs_output_offset+3:], "\n")
         endif
+
+        " Recover generated files
+        call system('cp $(ls ' . l:tmp_dir . '/* | grep -v ' . expand('%:t') . ') ' . expand('%:p:h'))
     else
         call OrgEchoError(join(l:out, "\n"))
     endif
