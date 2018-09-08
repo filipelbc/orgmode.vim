@@ -254,6 +254,15 @@ hi link orgLink orgLink
 hi link orgLinkBorder Special
 hi link orgLinkURL Type
 
+" Footnotes
+
+syntax match orgFootnoteBorder contained "\[\|\]" conceal
+syntax match orgFootnote "\[fn:\k\+\]" contains=orgFootnoteBorder
+
+execute
+hi link orgFootnote orgLink
+hi link orgFootnoteBorder Special
+
 " Properties
 syntax region orgProperties contained matchgroup=orgPropertiesGroup start="^\s*:PROPERTIES:\s*$" end="^\s*:END:\s*$" keepend fold contains=orgProperty
 syntax match orgPropertyValue contained ".*$" contains=@orgContained
