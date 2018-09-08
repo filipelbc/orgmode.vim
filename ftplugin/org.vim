@@ -99,6 +99,7 @@ let s:org_prog_guesses = {
             \ '^\s*#+TBLFM:':         'ApplyTableFormula',
             \ '^\s*|':                'UpTable',
             \ '^\s*#+BEGIN_SRC \k\+': 'ExecuteSrcBlock',
+            \ '^\s*#+CALL: \k\+':     'ExecuteSrcBlock',
             \ }
 
 for k in keys(s:org_progs)
