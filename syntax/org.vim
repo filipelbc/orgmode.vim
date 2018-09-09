@@ -198,7 +198,7 @@ syntax match orgOrderedList "^\s*\zs\d\+[.)]\ze "
 
 syntax match orgUnorderedList "^\s*\zs\([-+]\| \*\)\ze "
 
-syntax match orgDescriptionListName contained "[-+*] \zs.*\ze ::"
+syntax match orgDescriptionListName contained "[-+*] \zs.*\ze ::" contains=@orgContained
 syntax match orgDescriptionList "^\s*\zs\([-+]\| \*\) .\{-} ::\($\| \)" contains=orgDescriptionListName
 
 syntax cluster orgLists contains=orgOrderedList,orgUnorderedList,orgDescriptionList
