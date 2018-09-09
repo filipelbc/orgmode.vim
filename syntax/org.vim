@@ -120,7 +120,7 @@ syntax match orgTimestampInactive "\[\d\d\d\d-\d\d-\d\d\( \w\+\)\=\( \d\d\=:\d\d
 
 syntax cluster orgTimestamps contains=orgTimestampInactive,orgTimestampActive
 
-syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,@orgMarkups,@orgTimestamps
+syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,orgFootnote,@orgMarkups,@orgTimestamps
 
 " Headings
 function! FindAndCall(regex, func_name)

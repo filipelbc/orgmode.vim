@@ -397,3 +397,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 #+PROP: Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement
 
 *** TODO [#A] Value /italic/ and [[#some-crazy-id][link]] with {{{macro}}} replacement :age:
+
+* Testing footnotes[fn:1]
+
+List of descriptions:
+    - key :: value
+    - [[#some-crazy-id][link]] :: description
+    - a /italicized/ word :: its meaning
+    - with[fn:1] footnote :: wonderful!
+
+* Footnotes
+
+[fn:1] Some interesting reference
