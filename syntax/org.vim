@@ -171,7 +171,7 @@ for i in range(len(b:org_priority_keys))
 endfor
 
 execute 'syntax cluster orgTodoKeys contains=' . join(map(keys(b:org_todo_keys), "'orgTodoKey_' . v:val"), ',')
-execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys, "'orgPriorityKey_' . v:val"), ',')
+execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys[:], "'orgPriorityKey_' . v:val"), ',')
 
 syntax match orgPriority contained " \zs\[#\a\+\] " contains=@orgPriorityKeys
 
