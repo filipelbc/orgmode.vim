@@ -173,10 +173,12 @@ endfor
 execute 'syntax cluster orgTodoKeys contains=' . join(map(keys(b:org_todo_keys), "'orgTodoKey_' . v:val"), ',')
 execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys[:], "'orgPriorityKey_' . v:val"), ',')
 
-syntax match orgPriority contained " \zs\[#\a\+\] " contains=@orgPriorityKeys
+syntax match orgSectionMetaPriority contained "\[#\a\] \+" contains=@orgPriorityKeys
+let s:todo_alt = '\(' . join(keys(b:org_todo_keys), '\|') . '\)'
+execute 'syntax match orgSectionMetaTodo contained "' . s:todo_alt . ' \+" contains=@orgTodoKeys nextgroup=orgSectionMetaPriority'
+syntax match orgSectionMetaComment contained "COMMENT \+" nextgroup=orgSectionMetaTodo,orgSectionMetaPriority
 
-execute 'syntax match orgSectionMeta contained "\(COMMENT \+\)\=\(\(' . join(keys(b:org_todo_keys), '\|') . '\) \+\)\=\(\[#\a\+\] \+\)\=" contains=@orgTodoKeys,orgPriority'
-syntax match orgSectionStars contained "^\*\+ \+" nextgroup=orgSectionMeta transparent contains=NONE
+syntax match orgSectionStars contained "^\*\+ \+" nextgroup=orgSectionMetaComment,orgSectionMetaTodo,orgSectionMetaPriority transparent contains=NONE
 
 syntax match orgSectionTagDel contained ":"
 syntax match orgSectionTags contained "\s:\([a-zA-Z0-9_#%@]*:\)\+$" contains=orgSectionTagDel
