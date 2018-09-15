@@ -226,22 +226,17 @@ hi link orgMacroName Special
 hi link orgMacroDefinition Statement
 
 " Tables
-syntax cluster orgCellContains contains=orgTableColDel,@orgContained
-
 syntax match orgTableColDel "|" contained
 
-syntax match orgTableCell "|[^|]*" contained contains=@orgCellContains transparent
-syntax match orgTableHeaderCell "|[^|]*" contained contains=@orgCellContains
-
-syntax match orgTableRow "^\s*|.*" contains=orgTableHeader,orgTableCell transparent
+syntax match orgTableRow "^\s*|.*$" contains=orgTableHeader,orgTableColDel,@orgContained
 syntax match orgTableLine "^\s*|-[-+]*|\=\s*$"
-syntax match orgTableHeader "\(^\s*[^|]*\n\s*\)\@<=|[^-].*\n\ze\s*|-" contains=orgTableHeaderCell transparent
+syntax match orgTableHeader "\(^\s*[^|]*\n\s*\)\@<=|[^-].*\n\ze\s*|-" contained contains=orgTableColDel,@orgContained
 
 syntax cluster orgTableContained contains=orgTableRow,orgTableLine,orgTableHeader
 
 hi link orgTableColDel Type
 hi link orgTableLine Type
-hi link orgTableHeaderCell orgBold
+hi link orgTableHeader orgBold
 
 " Links
 syntax match orgLinkBorder contained "\[\[\|\]\[\|\]\]" conceal
