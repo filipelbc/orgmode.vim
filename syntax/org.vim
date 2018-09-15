@@ -171,15 +171,17 @@ for i in range(len(b:org_priority_keys))
 endfor
 
 execute 'syntax cluster orgTodoKeys contains=' . join(map(keys(b:org_todo_keys), "'orgTodoKey_' . v:val"), ',')
-execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys, "'orgPriorityKey_' . v:val"), ',')
+execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys[:], "'orgPriorityKey_' . v:val"), ',')
 
-syntax match orgPriority contained " \zs\[#\a\+\] " contains=@orgPriorityKeys
+syntax match orgSectionMetaPriority contained "\[#\a\] \+" contains=@orgPriorityKeys
+let s:todo_alt = '\(' . join(keys(b:org_todo_keys), '\|') . '\)'
+execute 'syntax match orgSectionMetaTodo contained "' . s:todo_alt . ' \+" contains=@orgTodoKeys nextgroup=orgSectionMetaPriority'
+syntax match orgSectionMetaComment contained "COMMENT \+" nextgroup=orgSectionMetaTodo,orgSectionMetaPriority
 
-execute 'syntax match orgSectionMeta contained "\(COMMENT \+\)\=\(\(' . join(keys(b:org_todo_keys), '\|') . '\) \+\)\=\(\[#\a\+\] \+\)\=" contains=@orgTodoKeys,orgPriority'
-syntax match orgSectionStars contained "^\*\+ \+" nextgroup=orgSectionMeta transparent contains=NONE
+syntax match orgSectionStars contained "^\*\+ \+" nextgroup=orgSectionMetaComment,orgSectionMetaTodo,orgSectionMetaPriority transparent contains=NONE
 
-syntax match orgSectionTag contained "[a-zA-Z0-9]\+"
-syntax match orgSectionTags contained "\s\+:\([a-zA-Z0-9]*:\)\+$" contains=orgSectionTag
+syntax match orgSectionTagDel contained ":"
+syntax match orgSectionTags contained "\s:\([a-zA-Z0-9_#%@]*:\)\+$" contains=orgSectionTagDel
 
 for i in range(b:org_max_sections)
     execute 'syntax match orgSection' . i . ' "^\*\{' . (i + 1) . '} .*" contains=orgSectionStars,orgSectionTags,@orgContained nextgroup=orgProperties skipnl'
@@ -306,10 +308,10 @@ call DeclareBlockWithSyntax('Export', 'html', 'html')
 
 " Colors
 execute 'hi orgSectionMeta ' . MakeStyleString(b:org_section_meta_style)
-execute 'hi orgSectionTag ' . MakeStyleString(b:org_section_tag_style)
+execute 'hi orgSectionTags ' . MakeStyleString(b:org_section_tag_style)
 hi link orgSectionMeta orgSectionMeta
 hi link orgPriority orgSectionMeta
-hi link orgSectionTags orgSectionMeta
+hi link orgSectionTagDel orgSectionMeta
 
 hi link orgComment Comment
 hi link orgBlockComment Comment
