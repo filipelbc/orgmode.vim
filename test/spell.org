@@ -1,0 +1,26 @@
+#+TITLE: This is worng
+
+* This is worng
+
+This is worng
+
+#+BEGIN_QUOTE
+  This is worng
+#+END_QUOTE
+
+This is worng
+
+this should be uppercase.
+
+| This | is | worng |
+|-
+| This | is | worng |
+
+Look: [[./foo.png][This is worng]].
+
+Look: this is *also worng*.
+
+Look: this is ~not worng~.
+
+#+CAPTION: This is worng
+[[./image.png]]

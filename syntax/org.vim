@@ -4,6 +4,7 @@ endif
 
 syntax clear
 syntax sync fromstart
+syntax spell toplevel
 
 " Settings and options
 let b:org_markup_conceal = exists('g:org_markup_conceal') ? g:org_markup_conceal : 1
@@ -92,7 +93,7 @@ for m in s:markups
             \ . ' oneline'
             \ . ' keepend'
             \ . s:concealends
-            \ . ' contains=orgMacroReplacement,orgCode,orgLink'
+            \ . ' contains=orgMacroReplacement,orgCode,orgLink,@Spell'
     execute 'hi org' . m[1] . ' cterm=' . tolower(m[1])
     execute 'hi link org' . m[1] . ' org' . m[1]
 
@@ -120,7 +121,7 @@ syntax match orgTimestampInactive "\[\d\d\d\d-\d\d-\d\d\( \w\+\)\=\( \d\d\=:\d\d
 
 syntax cluster orgTimestamps contains=orgTimestampInactive,orgTimestampActive
 
-syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,orgFootnote,@orgMarkups,@orgTimestamps
+syntax cluster orgContained contains=orgMacroReplacement,orgCode,orgLink,orgFootnote,@orgMarkups,@orgTimestamps,@Spell
 
 " Headings
 function! FindAndCall(regex, func_name)
@@ -212,7 +213,7 @@ syntax match orgComment "^\s*#\s.*"
 syntax match orgConfigValue contained ".*$" contains=@orgContained
 syntax match orgConfig "^\s*#+\k\+:" nextgroup=orgConfigValue skipwhite
 
-syntax match orgTitleValue contained ".*$" contains=orgMacroReplacement
+syntax match orgTitleValue contained ".*$" contains=orgMacroReplacement,@Spell
 syntax match orgTitle "^\s*#+TITLE:" nextgroup=orgTitleValue skipwhite
 
 " Macros
@@ -244,7 +245,7 @@ hi link orgTableHeader orgBold
 syntax match orgLinkBorder contained "\[\[\|\]\[\|\]\]" conceal
 syntax match orgLinkURL contained "\[\[[^]]\{-}\]\[" conceal contains=orgLinkBorder
 
-syntax match orgLink "\[\[.\{-}\]\]" contains=orgLinkBorder,orgLinkURL
+syntax match orgLink "\[\[.\{-}\]\]" contains=orgLinkBorder,orgLinkURL,@Spell
 
 execute 'hi orgLink ' . MakeStyleString(b:org_link_style)
 hi link orgLink orgLink
