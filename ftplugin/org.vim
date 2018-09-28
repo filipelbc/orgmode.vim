@@ -141,7 +141,9 @@ function! OrgCloseSectionFolds()
         let l:pat = '^\*\+\s\+\(' . join(l:items, '\|') . '\)\s'
     endif
 
+    let l:cur_pos = getpos('.')
     execute 'g/' . l:pat . '/call OrgCloseSectionFold()'
+    call setpos('.', l:cur_pos)
 endfunction
 
 if exists('g:org_start_with_closed_sections')
