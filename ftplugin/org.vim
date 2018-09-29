@@ -16,20 +16,23 @@ setlocal iskeyword+=-
 setlocal nowrap
 setlocal textwidth=77
 
+" cmd, use_leader, keys
 let s:org_default_maps = [
-            \   ['OrgGuessCommand', 'cc'],
-            \   ['OrgExportToHTML', 'eh'],
-            \   ['OrgMoveColRight', 'cl'],
-            \   ['OrgMoveColLeft',  'ch'],
-            \   ['OrgDelCol',       'cd'],
-            \   ['OrgAddCol',       'ca'],
-            \   ['OrgFmtTable',     'tt'],
+            \   ['OrgGuessCommand',  v:true,  'cc'],
+            \   ['OrgExportToHTML',  v:true,  'eh'],
+            \   ['OrgMoveColRight',  v:true,  'cl'],
+            \   ['OrgMoveColLeft',   v:true,  'ch'],
+            \   ['OrgDelCol',        v:true,  'cd'],
+            \   ['OrgAddCol',        v:true,  'ca'],
+            \   ['OrgFmtTable',      v:true,  'tt'],
+            \   ['OrgJumpCellRight', v:false, '<tab>'],
+            \   ['OrgJumpCellLeft',  v:false, '<s-tab>'],
             \ ]
 
-function! OrgDeclareNewMap(cmd, chars)
+function! OrgDeclareNewMap(cmd, use_leader, keys)
     execute 'nnoremap <buffer> <Plug>' . a:cmd . ' :' . a:cmd . '<CR>'
     if !hasmapto('<Plug>' . a:cmd) && !exists("g:no_org_default_maps")
-        execute 'nmap <buffer> ' . g:org_map_leader . a:chars . ' <Plug>' . a:cmd
+        execute 'nmap <buffer> ' . (a:use_leader ? g:org_map_leader : '') . a:keys . ' <Plug>' . a:cmd
     endif
 endfunction
 
@@ -38,8 +41,8 @@ if !exists("g:no_plugin_maps") && !exists("g:no_org_maps")
         let g:org_map_leader = '<leader>'
     endif
 
-    for v in s:org_default_maps
-        call OrgDeclareNewMap(v[0], v[1])
+    for [c, l, k] in s:org_default_maps
+        call OrgDeclareNewMap(c, l, k)
     endfor
 endif
 
@@ -53,7 +56,7 @@ endif
 
 let s:org_emacs_cmd = g:org_emacs_executable . ' --batch --load ' . shellescape(g:org_path_to_emacs_el)
 
-let s:org_progs = {
+let s:org_emacs_progs = {
             \   'FmtTable':          '(org-table-align)',
             \   'FmtAllTables':      "(org-table-map-tables 'org-table-align)",
             \   'UpDblock':          '(org-dblock-update)',
@@ -102,7 +105,7 @@ let s:org_prog_guesses = {
             \ '^\s*#+CALL: \k\+':     'ExecuteSrcBlock',
             \ }
 
-for k in keys(s:org_progs)
+for k in keys(s:org_emacs_progs)
     execute 'command! Org' . k . " call OrgCommand('" . k . "')"
 endfor
 
@@ -141,7 +144,7 @@ function! OrgCloseSectionFolds()
         let l:pat = '^\*\+\s\+\(' . join(l:items, '\|') . '\)\s'
     endif
 
-    let l:cur_pos = getpos('.')
+    let l:cur_pos = getcurpos()
     execute 'g/' . l:pat . '/call OrgCloseSectionFold()'
     call setpos('.', l:cur_pos)
 endfunction
@@ -235,7 +238,7 @@ function! OrgCommand(cmd)
     endif
 
     " Which program to use
-    let l:prog = s:org_progs[a:cmd]
+    let l:prog = s:org_emacs_progs[a:cmd]
 
     " Save some view state
     let l:view = winsaveview()
@@ -283,7 +286,7 @@ function! OrgCommand(cmd)
             let l:line = matchstr(l:out[-1], '^Line \zs\d\+$')
 
             if l:col != '' && l:line != ''
-                let l:cur_pos = getpos('.')
+                let l:cur_pos = getcurpos()
                 let l:cur_pos[1] = str2nr(l:line)
                 let l:cur_pos[2] = str2nr(l:col) + 1
                 call setpos('.', l:cur_pos)
@@ -312,3 +315,41 @@ function! OrgGuessCommand()
         endif
     endfor
 endfunction
+
+function! OrgJumpToNextCell(right)
+    let l:line = getline('.')
+
+    " the line is a table row
+    if l:line =~? '^\s*|\([^-]\|$\)'
+        let l:c0 = getcurpos()
+
+        if a:right
+            normal! f|
+        else
+            normal! F|
+
+            " we did not start at a column separator
+            if l:line !~? '\%' . l:c0[2] . 'c|'
+                let l:c1 = getcurpos()
+
+                " cursor changed position
+                if l:c0[2] != l:c1[2]
+                    normal! F|
+                endif
+            endif
+        endif
+
+        let l:c1 = getcurpos()
+
+        " cursor changed position
+        " and
+        " we did not end up in an empty cell
+        if l:c0[2] != l:c1[2] && l:line !~? ('\%' . l:c1[2] . 'c|\s*\(|\|$\)')
+            normal! w
+        endif
+    endif
+endfunction
+
+for [n, d] in [['Right', v:true], ['Left', v:false]]
+    execute 'command! OrgJumpCell' . n . " call OrgJumpToNextCell(" . d . ")"
+endfor
