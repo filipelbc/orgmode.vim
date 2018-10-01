@@ -58,6 +58,8 @@ let b:org_markup_group_style = ['#93a1a1']
 
 let b:org_link_style = ['#268bd2', 'NONE', 'underline']
 
+let b:org_hline_style = ['#000000', 'NONE', 'bold']
+
 " Style helper
 function! MakeStyleString(s)
     " s = [<foregroud>, <backgroud>, <attribute>]
@@ -306,6 +308,13 @@ call DeclareBlockWithSyntax('Src', 'python', 'python')
 call DeclareBlockWithSyntax('Src', 'sh', 'shell')
 call DeclareBlockWithSyntax('Src', 'html', 'html')
 call DeclareBlockWithSyntax('Export', 'html', 'html')
+
+" Horizontal line
+
+syntax match orgHorizontalLine "^\s*-\{5,}\s*$"
+
+execute 'hi orgHorizontalLine ' . MakeStyleString(b:org_hline_style)
+hi link orgHorizontalLine orgHorizontalLine
 
 " Colors
 execute 'hi orgSectionMeta ' . MakeStyleString(b:org_section_meta_style)
