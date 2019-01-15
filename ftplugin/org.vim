@@ -171,7 +171,7 @@ function! OrgCheckEmacsOrgAvailability()
 
     let s:org_emacs_output_offset = len(l:out) - 1
 
-    if v:shell_error == 0 && l:out[-1] =~ '^Org mode version \d\+\.\d\+\.\d\+'
+    if v:shell_error == 0 && l:out[-1] =~ '^Org mode version \d\+\.\d\+'
         let s:org_emacs_orgmode_version = l:out[-1]
         echomsg s:org_emacs_orgmode_version
     else
