@@ -132,7 +132,7 @@ endfunction
 
 function! RegisterTodoKeys(match)
     let l:t = ["TODO", v:false]
-    for k in split(a:match)
+    for k in split(substitute(a:match, "(.\\{-})", "", "g"))
         if k ==# "|"
             let l:t = ["DONE", v:true]
         else
@@ -157,14 +157,24 @@ for i in range(len(b:org_priority_keys))
     execute 'hi orgPriorityStyle_' . i . ' ' . MakeStyleString(b:org_priority_styles[i % l])
 endfor
 
+function! FixKey(k)
+    return substitute(a:k, "-", "_", "g")
+endfunction
+
 for k in keys(b:org_todo_keys)
     if has_key(b:org_todo_styles, k)
         let s:s = k
     else
         let s:s = b:org_todo_keys[k][0]
     endif
-    execute 'syntax keyword orgTodoKey_' . k . ' contained ' . k
-    execute 'hi link orgTodoKey_' . k . ' orgTodoStyle_' . s:s
+    if k =~ '-'
+        let fk = FixKey(k)
+        execute 'syntax match orgTodoKey_' . fk . ' contained "' . k . '"'
+        execute 'hi link orgTodoKey_' . fk . ' orgTodoStyle_' . s:s
+    else
+        execute 'syntax keyword orgTodoKey_' . k . ' contained ' . k
+        execute 'hi link orgTodoKey_' . k . ' orgTodoStyle_' . s:s
+    endif
 endfor
 
 for i in range(len(b:org_priority_keys))
@@ -173,7 +183,7 @@ for i in range(len(b:org_priority_keys))
     execute 'hi link orgPriorityKey_' . s:k . ' orgpriorityStyle_' . i
 endfor
 
-execute 'syntax cluster orgTodoKeys contains=' . join(map(keys(b:org_todo_keys), "'orgTodoKey_' . v:val"), ',')
+execute 'syntax cluster orgTodoKeys contains=' . join(map(map(keys(b:org_todo_keys), "FixKey(v:val)"), "'orgTodoKey_' . v:val"), ',')
 execute 'syntax cluster orgPriorityKeys contains=' . join(map(b:org_priority_keys[:], "'orgPriorityKey_' . v:val"), ',')
 
 syntax match orgSectionMetaPriority contained "\[#\a\] \+" contains=@orgPriorityKeys
