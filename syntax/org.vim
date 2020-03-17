@@ -40,14 +40,14 @@ let b:org_priority_styles = [
             \   ['#002b36'],
             \ ]
 
-let b:org_max_sections = 7
+let b:org_max_sections = 8
 let b:org_section_styles = [
             \   ['#dc322f', 'NONE', 'bold'],
             \   ['#268bd2', 'NONE', 'bold'],
-            \   ['#d33682', 'NONE', 'bold'],
-            \   ['#2aa198', 'NONE', 'bold'],
             \   ['#859900', 'NONE', 'bold'],
             \   ['#6c71c4', 'NONE', 'bold'],
+            \   ['#2aa198', 'NONE', 'bold'],
+            \   ['#d33682', 'NONE', 'bold'],
             \   ['#b58900', 'NONE', 'bold'],
             \   ['#cb4b16', 'NONE', 'bold'],
             \ ]
