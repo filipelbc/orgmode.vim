@@ -317,6 +317,7 @@ endfunction
 call DeclareBlockWithSyntax('Src', 'python', 'python')
 call DeclareBlockWithSyntax('Src', 'sh', 'shell')
 call DeclareBlockWithSyntax('Src', 'html', 'html')
+call DeclareBlockWithSyntax('Src', 'plantuml', 'plantuml')
 call DeclareBlockWithSyntax('Export', 'html', 'html')
 
 " Horizontal line
